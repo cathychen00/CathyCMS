@@ -14,6 +14,7 @@ import java.util.Date;
  * Created by 陈敬 on 17/8/30.
  */
 @RestController
+@RequestMapping("/login")
 public class LoginController {
     private UserService userService;
 
