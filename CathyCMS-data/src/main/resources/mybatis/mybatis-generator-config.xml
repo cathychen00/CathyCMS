@@ -42,7 +42,7 @@
         </commentGenerator>
 
         <!--jdbc的数据库连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/tianti_stage"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/cathycms"
                         userId="root" password="root"/>
 
         <javaTypeResolver>
