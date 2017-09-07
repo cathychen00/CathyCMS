@@ -1,4 +1,4 @@
-package com.cathycms.web;
+package com.cathy.cms.web;
 
 /**
  * Created by 陈敬 on 17/8/30.

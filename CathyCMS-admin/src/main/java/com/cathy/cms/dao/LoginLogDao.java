@@ -1,6 +1,6 @@
-package com.cathycms.dao;
+package com.cathy.cms.dao;
 
-import com.cathycms.domain.LoginLog;
+import com.cathy.cms.domain.LoginLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

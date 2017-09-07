@@ -1,4 +1,4 @@
-package com.cathycms.web;
+package com.cathy.cms.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

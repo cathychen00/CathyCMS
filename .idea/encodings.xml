@@ -2,6 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CathyCMS-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CathyCMS-data" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CathyCMSadmin" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

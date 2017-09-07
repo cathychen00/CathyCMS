@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="CathyCMS-admin:war">
+    <output-path>$PROJECT_DIR$/CathyCMS-admin/target</output-path>
+    <root id="archive" name="CathyCMS-admin-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="CathyCMS-admin:war exploded" />
+    </root>
+  </artifact>
+</component>

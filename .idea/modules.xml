@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CathyCMS-admin/CathyCMS-admin.iml" filepath="$PROJECT_DIR$/CathyCMS-admin/CathyCMS-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" filepath="$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmsBoot.iml" filepath="$PROJECT_DIR$/cmsBoot.iml" />
     </modules>
   </component>

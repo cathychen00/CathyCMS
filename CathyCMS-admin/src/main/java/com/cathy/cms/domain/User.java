@@ -1,4 +1,4 @@
-package com.cathycms.domain;
+package com.cathy.cms.domain;
 
 import java.io.Serializable;
 import java.util.Date;

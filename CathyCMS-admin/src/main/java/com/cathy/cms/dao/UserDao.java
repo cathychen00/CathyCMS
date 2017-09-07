@@ -1,6 +1,6 @@
-package com.cathycms.dao;
+package com.cathy.cms.dao;
 
-import com.cathycms.domain.User;
+import com.cathy.cms.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;

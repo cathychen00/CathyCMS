@@ -1,9 +1,9 @@
-package com.cathycms.service;
+package com.cathy.cms.service;
 
-import com.cathycms.dao.LoginLogDao;
-import com.cathycms.dao.UserDao;
-import com.cathycms.domain.LoginLog;
-import com.cathycms.domain.User;
+import com.cathy.cms.dao.LoginLogDao;
+import com.cathy.cms.dao.UserDao;
+import com.cathy.cms.domain.LoginLog;
+import com.cathy.cms.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
-package com.cathycms.web;
+package com.cathy.cms.web;
 
-import com.cathycms.domain.User;
-import com.cathycms.service.UserService;
+import com.cathy.cms.domain.User;
+import com.cathy.cms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
