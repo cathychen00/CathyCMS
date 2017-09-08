@@ -8,11 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="CathyCMS-admin" />
         <module name="CathyCMS-data" />
+        <module name="CathyCMS-domain" />
+        <module name="CathyCMS-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CathyCMS-admin" target="1.6" />
       <module name="CathyCMS-data" target="1.8" />
+      <module name="CathyCMS-domain" target="1.6" />
+      <module name="CathyCMS-service" target="1.6" />
       <module name="CathyCMSadmin" target="1.6" />
       <module name="cmsBoot" target="1.6" />
     </bytecodeTargetLevel>

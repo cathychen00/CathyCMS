@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-admin/CathyCMS-admin.iml" filepath="$PROJECT_DIR$/CathyCMS-admin/CathyCMS-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" filepath="$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CathyCMS-domain/CathyCMS-domain.iml" filepath="$PROJECT_DIR$/CathyCMS-domain/CathyCMS-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CathyCMS-service/CathyCMS-service.iml" filepath="$PROJECT_DIR$/CathyCMS-service/CathyCMS-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmsBoot.iml" filepath="$PROJECT_DIR$/cmsBoot.iml" />
     </modules>
   </component>
