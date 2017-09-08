@@ -26,25 +26,9 @@ public class LoginController {
         return "login";
     }
 
-//    @RequestMapping(value = "/loginCheck.html")
-//    public ModelAndView loginCheck(HttpServletRequest request, LoginCommand loginCommand) {
-//        boolean isValidUser = userService.hasMatchUser(loginCommand.getUserName(),
-//                loginCommand.getPassword());
-//        if (!isValidUser) {
-//            return new ModelAndView("login", "error", "用户名或密码错误。");
-//        } else {
-//            User user = userService.findUserByUserName(loginCommand
-//                    .getUserName());
-//            user.setLastIp(request.getLocalAddr());
-//            user.setLastVisit(new Date());
-//            userService.loginSuccess(user);
-//            request.getSession().setAttribute("user", user);
-//            return new ModelAndView("main");
-//        }
-//    }
-//
-//    @Autowired
-//    public void setUserService(UserService userService) {
-//        this.userService = userService;
-//    }
+
+    @RequestMapping("/doLogin")
+    public String doLogin(String username,String password){
+        return "index";
+    }
 }
