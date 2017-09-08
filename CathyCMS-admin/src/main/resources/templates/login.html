@@ -6,10 +6,10 @@
 </head>
 <body>
 <div>
-    <form th:action="/login/doLogin" th:method="post">
-        <input type="text" id="username">
-        <input type="password" id="password">
-        <input type="submit" id="submit" value="登录">
+    <form th:action="@{/login/doLogin}" th:method="post">
+        <input type="text" id="username" name="username"/>
+        <input type="password" id="password" name="password"/>
+        <input type="submit" id="submit" value="登录"/>
     </form>
 </div>
 </body>

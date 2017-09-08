@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CathyCMS-admin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CathyCMS-common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CathyCMS-data" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CathyCMS-domain" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CathyCMS-service" charset="UTF-8" />

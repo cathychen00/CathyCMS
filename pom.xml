@@ -12,6 +12,7 @@
         <module>CathyCMS-data</module>
         <module>CathyCMS-domain</module>
         <module>CathyCMS-service</module>
+        <module>CathyCMS-common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -121,7 +122,11 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
         <!-- 日志文件管理包 start -->
         <!--下面这三个是配套使用：http://blog.csdn.net/woshiwxw765/article/details/7624556-->
         <dependency>
