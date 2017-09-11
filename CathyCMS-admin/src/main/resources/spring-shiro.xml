@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--&lt;!&ndash; 缓存管理器 使用Ehcache实现 &ndash;&gt;-->
+    <!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+        <!--<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 凭证匹配器 &ndash;&gt;-->
+    <!--<bean id="credentialsMatcher" class="com.github.zhangkaitao.shiro.chapter12.credentials.RetryLimitHashedCredentialsMatcher">-->
+        <!--<constructor-arg ref="cacheManager"/>-->
+        <!--<property name="hashAlgorithmName" value="md5"/>-->
+        <!--<property name="hashIterations" value="2"/>-->
+        <!--<property name="storedCredentialsHexEncoded" value="true"/>-->
+    <!--</bean>-->
+
+    <!-- Realm实现 -->
+    <bean id="userRealm" class="com.cathy.cms.shiro.UserRealm">
+        <!--<property name="credentialsMatcher" ref="credentialsMatcher"/>-->
+        <property name="cachingEnabled" value="true"/>
+        <property name="authenticationCachingEnabled" value="true"/>
+        <property name="authenticationCacheName" value="authenticationCache"/>
+        <property name="authorizationCachingEnabled" value="true"/>
+        <property name="authorizationCacheName" value="authorizationCache"/>
+    </bean>
+
+    <!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
+    <!-- 会话DAO -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+    <!-- 会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="sessionDAO" ref="sessionDAO"/>
+    </bean>
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.mgt.DefaultSecurityManager">
+        <property name="realms">
+            <list>
+                <ref bean="userRealm"/>
+            </list>
+        </property>
+        <property name="sessionManager" ref="sessionManager"/>
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
+    </bean>
+    <!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager"/>
+        <property name="arguments" ref="securityManager"/>
+    </bean>
+
+    <!-- Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <property name="loginUrl" value="/user-web/login" />
+        <property name="unauthorizedUrl" value="/unauthorized  " />
+        <property name="filters">
+            <util:map>
+                <entry key="authc">
+                    <!-- 身份验证拦截器，默认为FormAuthenticationFilter，但 PassThruAuthenticationFilter功能相对强大，详情见
+                    https://shiro.apache.org/static/1.2.1/apidocs/org/apache/shiro/web/filter/authc/PassThruAuthenticationFilter.html-->
+                    <bean class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter" />
+                </entry>
+            </util:map>
+        </property>
+
+        <!-- shiro的强大的拦截器链，可以匹配全部的url，并根据配置进行拦截-->
+        <property name="filterChainDefinitions">
+            <value>
+                # 无需认证便可以访问的的文件放在前面
+                /js/* = anon
+                /css/* = anon
+                /img/* = anon
+                /images/* = anon
+
+                /user-web/login = anon
+                /logout = logout
+
+                /user-web/* = authc
+                /backend-web/* = authc
+            </value>
+        </property>
+    </bean>
+
+
+    <!-- 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证 -->
+    <!-- 这里要配置以下两个bean,在这之前要配置好lifecycleBeanPostProcessor-->
+
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <!--  加上下面这一句是为了解决If the controller requires proxying (e.g. due to @Transactional), please use class-based proxying  的报错-->
+        <!-- 参考http://www.cnblogs.com/digdeep/p/4624998.html 会发现上面错误是 Spring AOP 不同配置方式产生的冲突问题 -->
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+
+    <!-- 异常拦截 -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">
+                    /unauthorized                                <!-- 未授权处理页 -->
+                </prop>
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">
+                    /user-web/login                             <!-- 身份没有验证 -->
+                </prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>
