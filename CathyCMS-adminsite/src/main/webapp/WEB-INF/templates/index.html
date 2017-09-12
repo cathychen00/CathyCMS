@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <a th:href="@{/category/index}">首页</a>
+</div>
+<div>your name is:<span th:text="${name}"></span></div>
+<input type="text" value="test" th:value="${name}">
+<span th:text="|welcome,${name}|"></span>
+</body>
+</html>
