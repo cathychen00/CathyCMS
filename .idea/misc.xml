@@ -13,6 +13,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/CathyCMSadmin/pom.xml" />
+        <option value="$PROJECT_DIR$/CathyCMSadminWeb/pom.xml" />
       </set>
     </option>
   </component>

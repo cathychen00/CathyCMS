@@ -13,12 +13,13 @@
         <module>CathyCMS-domain</module>
         <module>CathyCMS-service</module>
         <module>CathyCMS-common</module>
+        <module>CathyCMS-adminsite</module>
     </modules>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
-    </parent>
+    <!--<parent>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+        <!--<version>1.5.6.RELEASE</version>-->
+    <!--</parent>-->
     <packaging>pom</packaging>
     <properties>
         <mysql.driver.version>5.1.22</mysql.driver.version>
@@ -27,6 +28,9 @@
         <mybatis.version>3.4.1</mybatis.version>
         <mybatis-spring.version>1.3.0</mybatis-spring.version>
         <log4j.version>1.2.17</log4j.version>
+        <shiro.version>1.3.2</shiro.version>
+        <spring.version>4.3.11.RELEASE</spring.version>
+        <thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
     </properties>
 
     <dependencies>
@@ -72,33 +76,33 @@
         </dependency>
         <!-- spring 持久层依赖end -->
         <!-- Spring web相关依赖 start -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-web</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-webmvc</artifactId>&lt;!&ndash; Spring Web MVC是一种基于Java的实现了Web MVC设计模式的请求驱动类型的轻量级Web框架 &ndash;&gt;-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId><!-- Spring Web MVC是一种基于Java的实现了Web MVC设计模式的请求驱动类型的轻量级Web框架 -->
+            <version>${spring.version}</version>
+        </dependency>
         <!-- Spring web相关依赖 end -->
         <!-- Spring 其它依赖 -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>&lt;!&ndash; spring面向切面编程，提供AOP（面向切面编程） &ndash;&gt;-->
-            <!--<artifactId>spring-aop</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-context-support</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-oxm</artifactId>-->
-            <!--<version>${spring.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework</groupId><!-- spring面向切面编程，提供AOP（面向切面编程） -->
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.aspectj</groupId>-->
             <!--<artifactId>aspectjweaver</artifactId>-->
@@ -138,13 +142,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
+            <version>1.7.25</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
+            <version>1.7.25</version>
         </dependency>
         <!-- 日志文件管理包 end -->
     </dependencies>
