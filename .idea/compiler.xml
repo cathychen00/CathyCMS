@@ -20,7 +20,7 @@
       <module name="CathyCMS-common" target="1.5" />
       <module name="CathyCMS-data" target="1.8" />
       <module name="CathyCMS-domain" target="1.5" />
-      <module name="CathyCMS-service" target="1.5" />
+      <module name="CathyCMS-service" target="1.6" />
       <module name="CathyCMSadmin" target="1.6" />
       <module name="CathyCMSadminWeb" target="1.6" />
       <module name="cmsBoot" target="1.5" />

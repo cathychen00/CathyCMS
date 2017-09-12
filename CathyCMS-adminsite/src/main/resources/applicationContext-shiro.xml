@@ -78,7 +78,7 @@
 	             /do_login = anon
 	             /login = anon
 	             /forget**/** = anon
-	             /** = rememberAuthFilter
+	             <!--/** = rememberAuthFilter-->
 	        </value>  
 	    </property>
 	</bean>  

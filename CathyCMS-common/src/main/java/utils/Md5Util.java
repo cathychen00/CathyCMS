@@ -73,7 +73,7 @@ public class Md5Util {
     } 
     
     public static void main(String[] args){
-    	System.out.println(Md5Util.validatePassword("454E908651395FB737E9B8048993C95D", "zhangdanfeng"));
+        System.out.println(Md5Util.validatePassword("E10ADC3949BA59ABBE56E057F20F883E", "123456"));
     }
 
 }
