@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CathyCMS-admin/CathyCMS-admin.iml" filepath="$PROJECT_DIR$/CathyCMS-admin/CathyCMS-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-adminsite/CathyCMS-adminsite.iml" filepath="$PROJECT_DIR$/CathyCMS-adminsite/CathyCMS-adminsite.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-common/CathyCMS-common.iml" filepath="$PROJECT_DIR$/CathyCMS-common/CathyCMS-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" filepath="$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" />

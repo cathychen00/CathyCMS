@@ -262,4 +262,13 @@
       order by ${orderByClause}
     </if>
   </select>
+
+
+  <select id="findByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_resource r join cms_role_resource_rel rel on r.resource_id=rel.resources_id
+    where r.resource_id=#{roleId} and r.delete_flag=0
+  </select>
+
 </mapper>

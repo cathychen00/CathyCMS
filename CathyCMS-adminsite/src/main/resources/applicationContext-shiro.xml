@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
-		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-		http://www.springframework.org/schema/data/jpa "
-	>
+	   xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
 	<description>shiro配置</description>
 
@@ -21,21 +13,21 @@
 	    <property name="httpOnly" value="true"/>  
 	    <property name="maxAge" value="-1"/>  
 	</bean>  
-	<!--<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  -->
-	    <!--<constructor-arg value="rememberMe"/>  -->
-	    <!--<property name="httpOnly" value="true"/>  -->
-	    <!--<property name="maxAge" value="2592000"/>&lt;!&ndash; 30天 &ndash;&gt;  -->
-	<!--</bean>-->
-	<!---->
-	<!--&lt;!&ndash; rememberMe管理器 &ndash;&gt;  -->
-	<!--<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">  -->
-	    <!--<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>  -->
-	    <!--<property name="cookie" ref="rememberMeCookie"/>  -->
-	<!--</bean>-->
-	<!---->
-	<!--<bean id="rememberAuthFilter"  class="com.jeff.tianti.shiro.RememberAuthenticationFilter">  -->
-	    <!--<property name="rememberMeParam" value="rememberMe"/>-->
-	<!--</bean>-->
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  
+	    <constructor-arg value="rememberMe2"/>
+	    <property name="httpOnly" value="true"/>  
+	    <property name="maxAge" value="2592000"/><!-- 30天 -->  
+	</bean>
+	
+	<!-- rememberMe管理器 -->  
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">  
+	    <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>  
+	    <property name="cookie" ref="rememberMeCookie"/>  
+	</bean>
+	
+	<bean id="rememberAuthFilter"  class="com.cathy.cms.shiro.RememberAuthenticationFilter">
+	    <property name="rememberMeParam" value="rememberMe"/>
+	</bean>
 	
 	
 	<!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroDbRealm.java -->  
@@ -46,7 +38,7 @@
 	<!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->  
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
 	    <property name="realm" ref="myRealm"/> 
-	    <!--<property name="rememberMeManager" ref="rememberMeManager"/> -->
+	    <property name="rememberMeManager" ref="rememberMeManager"/> 
 	</bean>
 	
 	<!-- Shiro主过滤器本身功能十分强大,其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行 -->  
@@ -60,7 +52,7 @@
 	    <!-- <property name="successUrl" value="/system/main"/> -->  
 	    <!-- 用户访问未对其授权的资源时,所显示的连接 -->  
 	    <!-- 若想更明显的测试此属性可以修改它的值,如unauthor.jsp,然后用[玄玉]登录后访问/admin/listUser.jsp就看见浏览器会显示unauthor.jsp -->  
-	    <property name="unauthorizedUrl" value="/"/>  
+	    <property name="unauthorizedUrl" value="/403"/>
 	    <!-- Shiro连接约束配置,即过滤链的定义 -->  
 	    <!-- 此处可配合我的这篇文章来理解各个过滤连的作用http://blog.csdn.net/jadyer/article/details/12172839 -->  
 	    <!-- 下面value值的第一个'/'代表的路径是相对于HttpServletRequest.getContextPath()的值来的 -->  
@@ -69,16 +61,15 @@
 	    <!-- rememberAuthFilter -->  
 	    <property name="filterChainDefinitions">  
 	        <value>
-	        	 /index = anon
 	        	 /error_page = anon
 	        	 /static/** = anon
 	        	 /ueditor/** = anon
 	        	 /uploads/** = anon
 	        	 /upload/** = anon
-	             /do_login = anon
+	             /login/doLogin = anon
 	             /login = anon
 	             /forget**/** = anon
-	             <!--/** = rememberAuthFilter-->
+	             /** = rememberAuthFilter
 	        </value>  
 	    </property>
 	</bean>  

@@ -3,6 +3,9 @@ package com.data.mapper;
 import com.data.pojo.CmsRole;
 import com.data.pojo.CmsRoleCriteria;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CmsRoleMapper {
@@ -69,4 +72,8 @@ public interface CmsRoleMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(CmsRole record);
+
+
+    //自定义
+    Set<CmsRole> findByUserId(@Param("userId") Integer userId);
 }

@@ -1,8 +1,12 @@
 package com.cathy.cms.shiro;
 
+import com.cathy.cms.service.ResourceService;
+import com.cathy.cms.service.RoleService;
 import com.cathy.cms.service.UserService;
 import com.cathy.cms.utils.ConstantHelper;
 import com.cathy.cms.utils.WebHelper;
+import com.data.pojo.CmsResource;
+import com.data.pojo.CmsRole;
 import com.data.pojo.CmsUser;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -25,28 +29,35 @@ public class MyRealm extends AuthorizingRealm {
     @Autowired
     UserService userService;
 
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    ResourceService resourceService;
+
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String userName = (String) principalCollection.getPrimaryPrincipal();
         CmsUser user = userService.findUserByName(userName);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-//        Set<Role> roleSet = user.getRoles();
-//
-//        Set<String> permissionSet = new HashSet<String>();
-//        for (Role role : roleSet) {
-//            if(StringUtils.isNotBlank(role.getRoleName())){
-//                info.addRole(role.getRoleName());
-//                Set<Resource> resources = role.getResources();
-//                if(resources!=null && !resources.isEmpty()){
-//                    for(Resource r : resources){
-//                        if(StringUtils.isNotBlank(r.getUrl())){
-//                            permissionSet.add(r.getUrl());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        info.addStringPermissions(permissionSet);
+        Set<CmsRole> roleSet =roleService.findByUserId(user.getUserId());
+
+        Set<String> permissionSet = new HashSet<String>();
+        for (CmsRole role : roleSet) {
+            if(StringUtils.isNotBlank(role.getRoleName())){
+                info.addRole(role.getRoleName());
+
+                Set<CmsResource> resources = resourceService.findByRoleId(role.getRoleId());
+                if(resources!=null && !resources.isEmpty()){
+                    for(CmsResource r : resources){
+                        if(StringUtils.isNotBlank(r.getUrl())){
+                            permissionSet.add(r.getUrl());
+                        }
+                    }
+                }
+            }
+        }
+
+        info.addStringPermissions(permissionSet);
         return null;
     }
 

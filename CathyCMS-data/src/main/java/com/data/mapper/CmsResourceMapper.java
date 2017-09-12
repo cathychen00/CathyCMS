@@ -3,6 +3,9 @@ package com.data.mapper;
 import com.data.pojo.CmsResource;
 import com.data.pojo.CmsResourceCriteria;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CmsResourceMapper {
@@ -69,4 +72,7 @@ public interface CmsResourceMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(CmsResource record);
+
+
+    Set<CmsResource> findByRoleId(@Param("roleId")Integer roleId);
 }
