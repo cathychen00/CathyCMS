@@ -12,6 +12,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+
   <!-- 配置Shiro filter -->
   <!-- 配置Shiro过滤器,先让Shiro过滤系统接收到的请求 -->
   <!-- 这里filter-name必须对应applicationContext-shiro.xml中定义的<bean id="shiroFilter"/> -->
@@ -43,6 +44,15 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>springmvc</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+
+  <session-config>
+    <session-timeout>480</session-timeout>
+  </session-config>
 </web-app>

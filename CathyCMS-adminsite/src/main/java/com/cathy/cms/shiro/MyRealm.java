@@ -3,8 +3,9 @@ package com.cathy.cms.shiro;
 import com.cathy.cms.service.ResourceService;
 import com.cathy.cms.service.RoleService;
 import com.cathy.cms.service.UserService;
-import com.cathy.cms.utils.ConstantHelper;
+import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.utils.WebHelper;
+import com.data.model.ResourceItem;
 import com.data.pojo.CmsResource;
 import com.data.pojo.CmsRole;
 import com.data.pojo.CmsUser;
@@ -19,8 +20,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by 陈敬 on 17/9/12.
@@ -78,8 +78,8 @@ public class MyRealm extends AuthorizingRealm {
             AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
 
             setSession(WebHelper.SESSION_LOGIN_USER, user);
-//
-//            initMenu(user.getId());
+
+            initMenu(user.getUserId());
 
             return authcInfo;
         }
@@ -87,11 +87,6 @@ public class MyRealm extends AuthorizingRealm {
         return null;
     }
 
-    /**
-     *
-     * @param key
-     * @param value
-     */
     private void setSession(Object key, Object value){
         Subject subject = SecurityUtils.getSubject();
         if(subject != null){
@@ -102,4 +97,39 @@ public class MyRealm extends AuthorizingRealm {
         }
     }
 
+
+    private void initMenu(int userId){
+        List<ResourceItem> result=new ArrayList<ResourceItem>();
+        List<ResourceItem> allMenu=resourceService.findAllMenu();
+        Set<Integer> userResourceIds=resourceService.findResourceIdsByUserId(userId);
+
+        if(allMenu!=null&&!allMenu.isEmpty()&&userResourceIds!=null&&!userResourceIds.isEmpty()){
+            for(ResourceItem menu:allMenu){
+                ResourceItem item=allowResource(menu,userResourceIds);
+                if(item!=null){
+                    result.add(item);
+                }
+            }
+        }
+
+        setSession(WebHelper.SESSION_MENU_RESOURCE,result);
+    }
+
+    private ResourceItem allowResource(ResourceItem menu, Set<Integer> userResourceIds) {
+        if(!userResourceIds.contains(menu.getResource().getResourceId())){
+            return null;
+        }
+
+        List<ResourceItem> children=menu.getChildren();
+        if(children!=null&&!children.isEmpty()){
+            for(ResourceItem child:children){
+                ResourceItem allowChildResource=allowResource(child,userResourceIds);
+                if(allowChildResource!=null){
+                    menu.getChildren().add(child);
+                }
+            }
+        }
+
+        return menu;
+    }
 }

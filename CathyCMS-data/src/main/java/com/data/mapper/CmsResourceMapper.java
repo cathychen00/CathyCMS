@@ -1,5 +1,6 @@
 package com.data.mapper;
 
+import com.data.model.ResourceItem;
 import com.data.pojo.CmsResource;
 import com.data.pojo.CmsResourceCriteria;
 import java.util.List;
@@ -75,4 +76,8 @@ public interface CmsResourceMapper {
 
 
     Set<CmsResource> findByRoleId(@Param("roleId")Integer roleId);
+
+    List<CmsResource> findAllResources(@Param("deleteFlag") Integer deleteFlag);
+
+    List<CmsResource> findByUserId(@Param("userId") int userId);
 }

@@ -9,7 +9,6 @@
         <module name="CathyCMS-adminsite" />
         <module name="CathyCMS-common" />
         <module name="CathyCMS-data" />
-        <module name="CathyCMS-domain" />
         <module name="CathyCMS-service" />
       </profile>
     </annotationProcessing>

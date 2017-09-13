@@ -1,5 +1,8 @@
 package com.cathy.cms.controller;
 
+import com.cathy.cms.utils.WebHelper;
+import com.data.model.ResourceItem;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -8,7 +11,10 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import utils.Md5Util;
+import cms.cathy.common.utils.Md5Util;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by 陈敬 on 17/8/30.
@@ -26,7 +32,7 @@ public class LoginController {
 
 
     @RequestMapping("/doLogin")
-    public String doLogin(String username,String password,Model model){
+    public String doLogin(String username, String password, Model model, HttpSession session){
         boolean rememberMe = false;
 
         String md5Pwd = Md5Util.generatePassword(password);
@@ -38,24 +44,24 @@ public class LoginController {
 
             subject.login(token);
 
-//            //跳转第一个菜单
-//            List<Resource> hasResource = (List<Resource>) request.getSession().getAttribute(WebHelper.SESSION_MENU_RESOURCE);
-//            if(hasResource != null && !hasResource.isEmpty()){
-//                for(Resource resource : hasResource){
-//
-//                    List<Resource> chResources = resource.getChildren();
-//                    if(StringUtils.isNotBlank(resource.getUrl()) && (chResources == null || chResources.isEmpty())){
-//                        return "redirect:" + resource.getUrl();
-//                    }
-//                    if(chResources != null && !chResources.isEmpty()){
-//                        for(Resource chRes : chResources){
-//                            if(StringUtils.isNotBlank(chRes.getUrl())){
-//                                return "redirect:" + chRes.getUrl();
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+            //跳转第一个菜单
+            List<ResourceItem> hasResource = (List<ResourceItem>) session.getAttribute(WebHelper.SESSION_MENU_RESOURCE);
+            if(hasResource != null && !hasResource.isEmpty()){
+                for(ResourceItem resource : hasResource){
+
+                    List<ResourceItem> chResources = resource.getChildren();
+                    if(StringUtils.isNotBlank(resource.getResource().getUrl()) && (chResources == null || chResources.isEmpty())){
+                        return "redirect:" + resource.getResource().getUrl();
+                    }
+                    if(chResources != null && !chResources.isEmpty()){
+                        for(ResourceItem chRes : chResources){
+                            if(StringUtils.isNotBlank(chRes.getResource().getUrl())){
+                                return "redirect:" + chRes.getResource().getUrl();
+                            }
+                        }
+                    }
+                }
+            }
 
             return "redirect:/user/list";
         } catch (LockedAccountException lae) {

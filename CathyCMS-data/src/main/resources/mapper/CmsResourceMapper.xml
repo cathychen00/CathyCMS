@@ -271,4 +271,21 @@
     where r.resource_id=#{roleId} and r.delete_flag=0
   </select>
 
+  <select id="findAllResources" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cms_resource r
+    where r.type in('module', 'page')
+    <if test="#{deleteFlag}!=null">
+      and delete_flag=#{deleteFlag}
+    </if>
+  </select>
+
+  <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select DISTINCT re.*
+    from cms_User u
+    join cms_role r
+    join cms_resource re
+    where r.delete_flag = 0 and re.delete_flag = 0 and u.user_id = #{userId}
+  </select>
 </mapper>

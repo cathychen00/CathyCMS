@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-adminsite/CathyCMS-adminsite.iml" filepath="$PROJECT_DIR$/CathyCMS-adminsite/CathyCMS-adminsite.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-common/CathyCMS-common.iml" filepath="$PROJECT_DIR$/CathyCMS-common/CathyCMS-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" filepath="$PROJECT_DIR$/CathyCMS-data/CathyCMS-data.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CathyCMS-domain/CathyCMS-domain.iml" filepath="$PROJECT_DIR$/CathyCMS-domain/CathyCMS-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/CathyCMS-service/CathyCMS-service.iml" filepath="$PROJECT_DIR$/CathyCMS-service/CathyCMS-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmsBoot.iml" filepath="$PROJECT_DIR$/cmsBoot.iml" />
     </modules>

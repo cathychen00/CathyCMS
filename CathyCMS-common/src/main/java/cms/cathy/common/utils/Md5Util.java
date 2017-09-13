@@ -1,4 +1,4 @@
-package utils;
+package cms.cathy.common.utils;
 
 import java.security.MessageDigest;
 
