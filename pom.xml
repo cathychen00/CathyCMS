@@ -8,9 +8,7 @@
     <artifactId>cmsBoot</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>CathyCMS-admin</module>
         <module>CathyCMS-data</module>
-        <module>CathyCMS-domain</module>
         <module>CathyCMS-service</module>
         <module>CathyCMS-common</module>
         <module>CathyCMS-adminsite</module>
