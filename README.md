@@ -9,7 +9,7 @@
 - 数据层采用 mybatis+mysql
 - 站点采用 spring mvc
 - 视图采用 thymeleaf
-- bootstrap模板：Start BootStrap Admin 2
+- bootstrap布局
 - 登录和权限控制集成了 shiro
 
 

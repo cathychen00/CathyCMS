@@ -13,11 +13,6 @@
         <module>CathyCMS-common</module>
         <module>CathyCMS-adminsite</module>
     </modules>
-    <!--<parent>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
-        <!--<version>1.5.6.RELEASE</version>-->
-    <!--</parent>-->
     <packaging>pom</packaging>
     <properties>
         <mysql.driver.version>5.1.22</mysql.driver.version>
@@ -28,7 +23,7 @@
         <log4j.version>1.2.17</log4j.version>
         <shiro.version>1.3.2</shiro.version>
         <spring.version>4.3.11.RELEASE</spring.version>
-        <thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
+        <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
     </properties>
 
     <dependencies>
@@ -39,10 +34,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
-        <!--</dependency>-->
         <!-- Spring相关项目依赖 start -->
         <!-- Spring核心依赖 start -->
         <dependency>
