@@ -50,13 +50,13 @@ public class LoginController {
                 for(ResourceItem resource : hasResource){
 
                     List<ResourceItem> chResources = resource.getChildren();
-                    if(StringUtils.isNotBlank(resource.getResource().getUrl()) && (chResources == null || chResources.isEmpty())){
-                        return "redirect:" + resource.getResource().getUrl();
+                    if(StringUtils.isNotBlank(resource.getCurrentResource().getUrl()) && (chResources == null || chResources.isEmpty())){
+                        return "redirect:" + resource.getCurrentResource().getUrl();
                     }
                     if(chResources != null && !chResources.isEmpty()){
                         for(ResourceItem chRes : chResources){
-                            if(StringUtils.isNotBlank(chRes.getResource().getUrl())){
-                                return "redirect:" + chRes.getResource().getUrl();
+                            if(StringUtils.isNotBlank(chRes.getCurrentResource().getUrl())){
+                                return "redirect:" + chRes.getCurrentResource().getUrl();
                             }
                         }
                     }

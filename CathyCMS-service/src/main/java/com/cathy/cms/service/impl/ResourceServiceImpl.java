@@ -26,33 +26,33 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<ResourceItem> findAllMenu() {
         List<CmsResource> allResources = resourceMapper.findAllResources(ConstantHelper.DELETE_FLAG_NORMAL);
+        List<ResourceItem> resourceWrappers=new ArrayList<ResourceItem>();
+        Map<Integer,ResourceItem> map=new HashMap<Integer, ResourceItem>();
+
+        for(final CmsResource resource:allResources){
+            ResourceItem item=new ResourceItem(){{
+                setCurrentResource(resource);
+            }};
+            resourceWrappers.add(item);
+            map.put(resource.getResourceId(),item);
+        }
 
         List<ResourceItem> menus = new ArrayList<ResourceItem>();
+        if (resourceWrappers != null && !resourceWrappers.isEmpty()) {
 
-        if (allResources != null && !allResources.isEmpty()) {
-            Map<Integer, ResourceItem> map = new HashMap<Integer, ResourceItem>();
-            for (final CmsResource resource : allResources) {
-                map.put(resource.getResourceId(), new ResourceItem() {{
-                    setResource(resource);
-                }});
-            }
-
-            for (final CmsResource resource : allResources) {
-                ResourceItem item = new ResourceItem() {{
-                    setResource(resource);
-                }};
-
+            for (final ResourceItem wrapper : resourceWrappers) {
+                CmsResource resource=wrapper.getCurrentResource();
                 if (resource.getParentId() == null || resource.getParentId() == 0) {
-                    menus.add(item);
+                    menus.add(wrapper);
                 } else {
-                    ResourceItem parentResource = map.get(resource.getParentId());
+                    ResourceItem parentResource =map.get(wrapper.getCurrentResource().getParentId());
                     if (parentResource == null) {
-                        menus.add(item);
+                        menus.add(wrapper);
                     } else {
                         if (parentResource.getChildren() == null) {
                             parentResource.setChildren(new ArrayList<ResourceItem>());
                         }
-                        parentResource.getChildren().add(item);
+                        parentResource.getChildren().add(wrapper);
                     }
                 }
             }

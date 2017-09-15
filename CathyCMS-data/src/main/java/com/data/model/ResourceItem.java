@@ -1,6 +1,7 @@
 package com.data.model;
 
 import com.data.pojo.CmsResource;
+import com.sun.xml.internal.ws.api.pipe.ServerTubeAssemblerContext;
 
 import java.util.List;
 
@@ -10,15 +11,15 @@ import java.util.List;
  */
 public class ResourceItem{
 
-    CmsResource resource;
+    CmsResource currentResource;
     List<ResourceItem> children;
 
-    public CmsResource getResource() {
-        return resource;
+    public CmsResource getCurrentResource() {
+        return currentResource;
     }
 
-    public void setResource(CmsResource resource) {
-        this.resource = resource;
+    public void setCurrentResource(CmsResource currentResource) {
+        this.currentResource = currentResource;
     }
 
     public List<ResourceItem> getChildren() {
