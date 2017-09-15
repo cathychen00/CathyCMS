@@ -12,9 +12,8 @@ import java.util.Set;
 public interface ResourceService {
     Set<CmsResource> findByRoleId(Integer roleId);
 
-    /**
-     * 获取全部功能菜单
-     */
+    List<CmsResource> listAllResources();
+
     List<ResourceItem> findAllMenu();
 
     List<CmsResource> findByUserId(int userId);

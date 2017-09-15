@@ -1,6 +1,5 @@
 package com.cathy.cms.service.impl;
 
-import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.service.ResourceService;
 import com.data.mapper.CmsResourceMapper;
 import com.data.model.ResourceItem;
@@ -24,12 +23,21 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public List<CmsResource> listAllResources() {
+        return resourceMapper.findAllResources();
+    }
+
+    @Override
     public List<ResourceItem> findAllMenu() {
-        List<CmsResource> allResources = resourceMapper.findAllResources(ConstantHelper.DELETE_FLAG_NORMAL);
+        List<CmsResource> allResources = listAllResources();
         List<ResourceItem> resourceWrappers=new ArrayList<ResourceItem>();
         Map<Integer,ResourceItem> map=new HashMap<Integer, ResourceItem>();
 
-        for(final CmsResource resource:allResources){
+        for( final CmsResource resource:allResources){
+            if(resource.getDeleteFlag()=="1"){
+                continue;
+            }
+
             ResourceItem item=new ResourceItem(){{
                 setCurrentResource(resource);
             }};

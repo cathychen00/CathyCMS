@@ -3,6 +3,7 @@ package com.data.mapper;
 import com.data.model.ResourceItem;
 import com.data.pojo.CmsResource;
 import com.data.pojo.CmsResourceCriteria;
+
 import java.util.List;
 import java.util.Set;
 
@@ -75,9 +76,9 @@ public interface CmsResourceMapper {
     int updateByPrimaryKey(CmsResource record);
 
 
-    Set<CmsResource> findByRoleId(@Param("roleId")Integer roleId);
+    Set<CmsResource> findByRoleId(@Param("roleId") Integer roleId);
 
-    List<CmsResource> findAllResources(@Param("deleteFlag") Integer deleteFlag);
+    List<CmsResource> findAllResources();
 
     List<CmsResource> findByUserId(@Param("userId") int userId);
 }

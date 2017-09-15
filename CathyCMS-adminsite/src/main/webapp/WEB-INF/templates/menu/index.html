@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="task/layout">
+<head>
+    <meta charset="utf-8">
+    <title>菜单列表</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>
+        菜单列表
+    </h1>
+    <th:block th:if="${resources}==null">
+        <div class="well blank-slate">
+            <p>暂时还没有菜单数据</p>
+            <a href="#" class="btn btn-primary"><i class="icon-plus icon-white"></i> 增加菜单</a>
+        </div>
+
+    </th:block>
+    <th:block th:if="${resources}!=null">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>
+                    <span>序号</span>
+                </th>
+                <th>
+                    <span>名称</span>
+                </th>
+                <th>
+                    <span>类型</span>
+                </th>
+                <th>
+                    <span>链接</span>
+                </th>
+                <th>
+                    <span>父菜单</span>
+                </th>
+                <th>
+                    <span>状态</span>
+                </th>
+                <th>
+                    <span>操作</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="r:${resources}">
+                <tr>
+                    <td>
+                        <span th:text="${r.orderNo}"></span>
+                    </td>
+                    <td>
+                        <div>
+                            <i th:class="${r.icon}"></i>
+                            <span th:text="${r.resourceName }"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <th:block th:switch="${r.type}">
+                            <span th:case="module">模块</span>
+                            <span th:case="page">页面</span>
+                        </th:block>
+                    </td>
+                    <td>
+                        <span th:text="${r.url}"></span>
+                    </td>
+                    <td>
+                        <!--<div class="t_text tc">-->
+                        <!--<i class="icon">${r.parent.icon }</i>-->
+                        <!--<span>${r.parent.name }</span>-->
+                        <!--</div>-->
+                    </td>
+                    <td>
+                        <th:block th:switch="${r.deleteFlag}">
+                            <span th:case="0">正常</span>
+                            <span th:case="1">删除</span>
+                        </th:block>
+                    </td>
+                    <td>
+                        <div class="t_link">
+                            <a href="javascript:editMenu('${r.id }');">编辑</a>
+                            <th:block th:switch="${r.deleteFlag}">
+                                <a th:case="0" onclick="deleteMenu()" th:attr="data-id=${r.resourceId}">删除</a>
+                                <a th:case="1" onclick="resetMenu()" th:attr="data-id=${r.resourceId}">恢复</a>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+        <a class="toggle-link" href="#new-project"><i class="icon-plus"></i>增加菜单</a>
+        <form id="new-project" class="form-horizontal hidden">
+            <fieldset>
+                <legend id="panelName">增加菜单</legend>
+                <div class="control-group">
+                    <label class="control-label" for="input01">Project Name</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="input01"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="select01">Client</label>
+                    <div class="controls">
+                        <select id="select01">
+                            <option>-- Select client --</option>
+                            <option>Bad Robot</option>
+                            <option>Evil Genius</option>
+                            <option>Monsters Inc</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="textarea">Project Summary</label>
+                    <div class="controls">
+                        <textarea class="input-xlarge" id="textarea" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button class="btn">Cancel</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </th:block>
+</div>
+</body>
+</html>
