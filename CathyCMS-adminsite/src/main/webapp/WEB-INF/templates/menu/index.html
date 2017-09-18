@@ -83,10 +83,13 @@
                     </td>
                     <td>
                         <div class="t_link">
-                            <a href="javascript:editMenu('${r.id }');">编辑</a>
+                            <a href="javascript:void(0);" th:attr="data-id=${r.resourceId}"
+                               onclick="editResource(this);">编辑</a>
                             <th:block th:switch="${r.deleteFlag}">
-                                <a th:case="0" onclick="deleteMenu()" th:attr="data-id=${r.resourceId}">删除</a>
-                                <a th:case="1" onclick="resetMenu()" th:attr="data-id=${r.resourceId}">恢复</a>
+                                <a th:case="0" onclick="del(this)"
+                                   th:attr="data-id=${r.resourceId}">删除</a>
+                                <a th:case="1" onclick="reset(this)"
+                                   th:attr="data-id=${r.resourceId}">恢复</a>
                             </th:block>
                         </div>
                     </td>
@@ -94,86 +97,40 @@
             </th:block>
             </tbody>
         </table>
-        <a class="toggle-link" href="#new-project"><i class="icon-plus"></i>增加菜单</a>
-        <form id="new-project" class="form-horizontal hidden" th:action="@{/menu/save}" th:method="post">
-            <input id="resourceId" name="resourceId" value="0">
-            <fieldset>
-                <legend id="panelName">增加菜单</legend>
-                <div class="control-group">
-                    <label class="control-label" for="resourceName">名称 <span class="red">*</span></label>
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="resourceName" name="resourceName"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="url">Url <span class="red">*</span></label>
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="url" name="url"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="icon">图标</label>
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="icon" name="icon"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">类型<span class="red">*</span></label>
-                    <div class="controls">
-                        <input type="radio" name="type" value="page">页面
-                        <input type="radio" name="type" value="module">模块
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="parentId">父页面</label>
-                    <div class="controls">
-                        <select id="parentId" name="parentId">
-                            <option value="-1">-- 请选择 --</option>
-                            <th:block th:each="module:${modules}">
-                                <option th:value="${module.resourceId}" th:text="${module.resourceName}"></option>
-                            </th:block>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="orderNo">序号</label>
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="orderNo" name="orderNo"/>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">保存</button>
-                    <button class="btn">取消</button>
-                </div>
-            </fieldset>
-        </form>
 
+        <a id="btnAddMenu" href="javascript:void(0);"><i class="icon-plus"></i>增加菜单</a>
+        <div id="editPanel"></div>
     </th:block>
 </div>
 </body>
 <th:block layout:fragment="script">
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#new-project").submit(function(){
-            var resourceName=$("#resourceName").val();
-            if(!resourceName){
-                alert("请输入菜单名称");
+    <script type="text/javascript">
+        $(document).ready(function () {
+            jQuery("#btnAddMenu").click(function () {
+                $("#editPanel").load("/menu/editPanel?resourceId=0#new-project");
                 return false;
-            }
-
-            var url=$("#url").val();
-            if(!url){
-                alert("请输入菜单url");
-                return false;
-            }
-
-            var type=$("#type").val();
-            if(type=="-1"){
-                alert("请选择类型");
-                return false;
-            }
+            });
         });
-    });
-</script>
+
+        function editResource(obj) {
+            var id = $(obj).attr("data-id");
+            $("#editPanel").load("/menu/editPanel?resourceId=" + id + "#new-project");
+            return false;
+        }
+
+        function del(obj) {
+            var id = $(obj).attr("data-id");
+            $.post("[[@{/menu/delete}]]", {"id": id}, function () {
+                window.location.reload();
+            });
+        }
+
+        function reset(obj){
+            var id = $(obj).attr("data-id");
+            $.post("[[@{/menu/reset}]]", {"id": id}, function () {
+                window.location.reload();
+            });
+        }
+    </script>
 </th:block>
 </html>

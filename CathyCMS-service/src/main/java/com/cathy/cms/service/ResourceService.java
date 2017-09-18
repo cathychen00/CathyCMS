@@ -22,7 +22,13 @@ public interface ResourceService {
 
     Set<Integer> findResourceIdsByUserId(int userId);
 
+    CmsResource findByResourceId(Integer resourceId);
+
     void insertResource(CmsResource resource);
 
     void updateResource(CmsResource resource);
+
+    void deleteResource(int id);
+
+    void resetResource(int id);
 }

@@ -1,0 +1,80 @@
+<form id="new-project" class="form-horizontal" th:action="@{/menu/save}" th:method="post" th:object="${resource}">
+    <input type="hidden" th:field="*{resourceId}" value="0">
+    <fieldset>
+        <legend id="panelName" th:text="${panelName}">增加菜单</legend>
+        <div class="control-group">
+            <label class="control-label" for="resourceName">名称 <span class="red">*</span></label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" th:field="*{resourceName}"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="url">Url <span class="red">*</span></label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" th:field="*{url}"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="icon">图标</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" th:field="*{icon}"/>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">类型<span class="red">*</span></label>
+            <div class="controls">
+                <input type="radio" name="type" value="page" th:checked="${resource.type}=='page'">页面
+                <input type="radio" name="type" value="module" th:checked="${resource.type}=='module'">模块
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="parentId">父页面</label>
+            <div class="controls">
+                <select id="parentId" name="parentId" th:field="*{parentId}">
+                    <option value="-1">-- 请选择 --</option>
+                    <th:block th:each="module:${modules}">
+                        <option th:value="${module.resourceId}" th:text="${module.resourceName}"></option>
+                    </th:block>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="orderNo">序号</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" th:field="*{orderNo}"/>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">保存</button>
+            <button class="button" onclick="cancelEdit">取消</button>
+        </div>
+    </fieldset>
+</form>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#new-project").submit(function(){
+            var resourceName=$("#resourceName").val();
+            if(!resourceName){
+                alert("请输入菜单名称");
+                return false;
+            }
+
+            var url=$("#url").val();
+            if(!url){
+                alert("请输入菜单url");
+                return false;
+            }
+
+            var type=$("#type").val();
+            if(type=="-1"){
+                alert("请选择类型");
+                return false;
+            }
+        });
+
+        $("#cancelEdit").click(function(){
+            $("#new-project").hide();
+            return false;
+        });
+    });
+</script>

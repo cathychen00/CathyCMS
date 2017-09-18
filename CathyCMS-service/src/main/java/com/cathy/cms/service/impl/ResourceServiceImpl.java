@@ -1,5 +1,6 @@
 package com.cathy.cms.service.impl;
 
+import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.service.ResourceService;
 import com.data.mapper.CmsResourceMapper;
 import com.data.model.ResourceItem;
@@ -100,12 +101,44 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public CmsResource findByResourceId(Integer resourceId) {
+        return resourceMapper.selectByPrimaryKey(resourceId);
+    }
+
+    @Override
     public void insertResource(CmsResource resource) {
+        resource.setCreateDate(new Date());
+        resource.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
         resourceMapper.insert(resource);
     }
 
     @Override
     public void updateResource(CmsResource resource) {
+        resource.setUpdateDate(new Date());
+        resourceMapper.updateByPrimaryKey(resource);
+    }
+
+    @Override
+    public void deleteResource(int id) {
+        CmsResource resource=resourceMapper.selectByPrimaryKey(id);
+        if(resource==null){
+            return ;
+        }
+
+        resource.setDeleteFlag(ConstantHelper.DELETE_FLAG_DELETED);
+        resource.setUpdateDate(new Date());
+        resourceMapper.updateByPrimaryKey(resource);
+    }
+
+    @Override
+    public void resetResource(int id) {
+        CmsResource resource=resourceMapper.selectByPrimaryKey(id);
+        resource.setUpdateDate(new Date());
+        if(resource==null){
+            return ;
+        }
+
+        resource.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
         resourceMapper.updateByPrimaryKey(resource);
     }
 }

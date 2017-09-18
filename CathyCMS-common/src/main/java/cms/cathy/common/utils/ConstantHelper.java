@@ -8,10 +8,10 @@ public class ConstantHelper {
     public static final Integer STATUS_NO = 0;
 
     //逻辑删除标识位—已删除状态
-    public static final int DELETE_FLAG_DELETED = 1;
+    public static final String DELETE_FLAG_DELETED = "1";
 
     //逻辑删除标识位—未删除状态
-    public static final int DELETE_FLAG_NORMAL = 0;
+    public static final String DELETE_FLAG_NORMAL = "0";
 
     public static final String RESOURCE_TYPE_MODULE="module";
     public static final String RESOURCE_TYPE_PAGE="page";

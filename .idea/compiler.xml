@@ -14,7 +14,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CathyCMS-admin" target="1.5" />
-      <module name="CathyCMS-adminsite" target="1.5" />
+      <module name="CathyCMS-adminsite" target="1.8" />
       <module name="CathyCMS-common" target="1.5" />
       <module name="CathyCMS-data" target="1.8" />
       <module name="CathyCMS-domain" target="1.5" />
