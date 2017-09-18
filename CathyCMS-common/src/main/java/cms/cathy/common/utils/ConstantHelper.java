@@ -12,4 +12,7 @@ public class ConstantHelper {
 
     //逻辑删除标识位—未删除状态
     public static final int DELETE_FLAG_NORMAL = 0;
+
+    public static final String RESOURCE_TYPE_MODULE="module";
+    public static final String RESOURCE_TYPE_PAGE="page";
 }

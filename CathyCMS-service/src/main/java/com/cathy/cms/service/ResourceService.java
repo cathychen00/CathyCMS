@@ -14,9 +14,15 @@ public interface ResourceService {
 
     List<CmsResource> listAllResources();
 
+    List<CmsResource> listResourcesByType(String type);
+
     List<ResourceItem> findAllMenu();
 
     List<CmsResource> findByUserId(int userId);
 
     Set<Integer> findResourceIdsByUserId(int userId);
+
+    void insertResource(CmsResource resource);
+
+    void updateResource(CmsResource resource);
 }

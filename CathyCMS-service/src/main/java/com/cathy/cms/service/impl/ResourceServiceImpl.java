@@ -4,6 +4,7 @@ import com.cathy.cms.service.ResourceService;
 import com.data.mapper.CmsResourceMapper;
 import com.data.model.ResourceItem;
 import com.data.pojo.CmsResource;
+import com.data.pojo.CmsResourceCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,36 +25,46 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<CmsResource> listAllResources() {
-        return resourceMapper.findAllResources();
+        CmsResourceCriteria criteria=new CmsResourceCriteria();
+        criteria.setOrderByClause(" order_no ");
+        return resourceMapper.selectByExample(criteria);
+    }
+
+    @Override
+    public List<CmsResource> listResourcesByType(String type) {
+        CmsResourceCriteria criteria=new CmsResourceCriteria();
+        criteria.createCriteria().andTypeEqualTo(type);
+
+        return resourceMapper.selectByExample(criteria);
     }
 
     @Override
     public List<ResourceItem> findAllMenu() {
         List<CmsResource> allResources = listAllResources();
-        List<ResourceItem> resourceWrappers=new ArrayList<ResourceItem>();
-        Map<Integer,ResourceItem> map=new HashMap<Integer, ResourceItem>();
+        List<ResourceItem> resourceWrappers = new ArrayList<ResourceItem>();
+        Map<Integer, ResourceItem> map = new HashMap<Integer, ResourceItem>();
 
-        for( final CmsResource resource:allResources){
-            if(resource.getDeleteFlag()=="1"){
+        for (final CmsResource resource : allResources) {
+            if (resource.getDeleteFlag() == "1") {
                 continue;
             }
 
-            ResourceItem item=new ResourceItem(){{
+            ResourceItem item = new ResourceItem() {{
                 setCurrentResource(resource);
             }};
             resourceWrappers.add(item);
-            map.put(resource.getResourceId(),item);
+            map.put(resource.getResourceId(), item);
         }
 
         List<ResourceItem> menus = new ArrayList<ResourceItem>();
         if (resourceWrappers != null && !resourceWrappers.isEmpty()) {
 
             for (final ResourceItem wrapper : resourceWrappers) {
-                CmsResource resource=wrapper.getCurrentResource();
+                CmsResource resource = wrapper.getCurrentResource();
                 if (resource.getParentId() == null || resource.getParentId() == 0) {
                     menus.add(wrapper);
                 } else {
-                    ResourceItem parentResource =map.get(wrapper.getCurrentResource().getParentId());
+                    ResourceItem parentResource = map.get(wrapper.getCurrentResource().getParentId());
                     if (parentResource == null) {
                         menus.add(wrapper);
                     } else {
@@ -86,5 +97,15 @@ public class ResourceServiceImpl implements ResourceService {
             ids.add(resource.getResourceId());
         }
         return ids;
+    }
+
+    @Override
+    public void insertResource(CmsResource resource) {
+        resourceMapper.insert(resource);
+    }
+
+    @Override
+    public void updateResource(CmsResource resource) {
+        resourceMapper.updateByPrimaryKey(resource);
     }
 }
