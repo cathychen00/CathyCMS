@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="task/layout">
+<head>
+    <meta charset="utf-8">
+    <title>角色列表</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>
+        角色列表
+    </h1>
+    <th:block th:if="${roles}==null">
+        <div class="well blank-slate">
+            <p>暂时还没有角色数据</p>
+            <a th:href="@{/role/edit}" class="btn btn-primary"><i class="icon-plus icon-white"></i> 增加角色</a>
+        </div>
+    </th:block>
+    <th:block th:if="${roles}!=null">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>
+                    <span>序号</span>
+                </th>
+                <th>
+                    <span>名称</span>
+                </th>
+                <th>
+                    <span>描述</span>
+                </th>
+                <th>
+                    <span>创建时间</span>
+                </th>
+                <th>
+                    <span>状态</span>
+                </th>
+                <th>
+                    <span>操作</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="r:${roles}">
+                <tr>
+                    <td>
+                        <span th:text="${r.roleId}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${r.name}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${r.description}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#dates.format(r.createDate,'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${r.deleteFlag}=='0'?'正常':'删除'"></span>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-default" th:href="@{/role/edit(roleId=${r.roleId})}">编辑</a>
+                        <th:block th:switch="${r.deleteFlag}">
+                            <button th:case="0" type="button" class="btn btn-xs btn-danger"
+                                    th:attr="data-id=${r.roleId}" name="btnDelete">删除
+                            </button>
+                            <button th:case="1" type="button" class="btn btn-xs btn-success"
+                                    th:attr="data-id=${r.roleId}" name="btnReset">恢复
+                            </button>
+                        </th:block>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </th:block>
+    <p>
+        <button type="button" class="btn btn-success" id="btnAdd">新增</button>
+    </p>
+</div>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("[name='btnDelete']").click(function () {
+                if (confirm("确实删除该角色吗")) {
+                    var roleId = $(this).attr("data-id");
+                    deleteRole(roleId);
+                }
+                return false;
+            });
+
+            $("[name='btnReset']").click(function () {
+                var roleId = $(this).attr("data-id");
+                resetRole(roleId);
+                return false;
+            });
+
+            $("#btnAdd").click(function(){
+                window.location.href="[[@{/role/edit}]]";
+            });
+        });
+
+        function deleteRole(roleId) {
+            $.ajax({
+                url: "[[@{/role/delete}]]",
+                data: {"roleId": roleId},
+                method: "post",
+                success: function (json) {
+                    if (json && json.returncode == "0") {
+                        alert("删除成功");
+                        window.location.reload();
+                    } else {
+                        alert("删除失败");
+                    }
+                },
+                error: function () {
+                    alert("删除失败");
+                }
+            });
+        }
+
+        function resetRole(roleId) {
+            $.ajax({
+                url: "[[@{/role/reset}]]",
+                data: {"roleId": roleId},
+                method: "post",
+                success: function (json) {
+                    if (json && json.returncode == "0") {
+                        alert("恢复成功");
+                        window.location.reload();
+                    } else {
+                        alert("恢复失败");
+                    }
+                },
+                error: function () {
+                    alert("恢复失败");
+                }
+            });
+        }
+    </script>
+</th:block>
+</body>
+</html>

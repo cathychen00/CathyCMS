@@ -114,8 +114,17 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public void updateResource(CmsResource resource) {
-        resource.setUpdateDate(new Date());
-        resourceMapper.updateByPrimaryKey(resource);
+        CmsResource oldResource=resourceMapper.selectByPrimaryKey(resource.getResourceId());
+
+        oldResource.setUpdateDate(new Date());
+        oldResource.setResourceName(resource.getResourceName());
+        oldResource.setUrl(resource.getUrl());
+        oldResource.setIcon(resource.getIcon());
+        oldResource.setType(resource.getType());
+        oldResource.setParentId(resource.getParentId());
+        oldResource.setOrderNo(resource.getOrderNo());
+
+        resourceMapper.updateByPrimaryKey(oldResource);
     }
 
     @Override

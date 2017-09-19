@@ -1,11 +1,15 @@
 package com.cathy.cms.service.impl;
 
+import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.service.RoleService;
 import com.data.mapper.CmsRoleMapper;
 import com.data.pojo.CmsRole;
+import com.data.pojo.CmsRoleCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,5 +24,40 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Set<CmsRole> findByUserId(Integer userId) {
         return roleMapper.findByUserId(userId);
+    }
+
+    @Override
+    public List<CmsRole> listAllRoles() {
+        CmsRoleCriteria criteria=new CmsRoleCriteria();
+        return roleMapper.selectByExample(criteria);
+    }
+
+    @Override
+    public CmsRole findByRoleId(Integer roleId) {
+        return roleMapper.selectByPrimaryKey(roleId);
+    }
+
+    @Override
+    public int deleteByRoleId(int roleId) {
+        CmsRole role=roleMapper.selectByPrimaryKey(roleId);
+        if(role==null){
+            return 0;
+        }
+
+        role.setDeleteFlag(ConstantHelper.DELETE_FLAG_DELETED);
+        role.setUpdateDate(new Date());
+        return roleMapper.updateByPrimaryKey(role);
+    }
+
+    @Override
+    public int resetByRoleId(int roleId) {
+        CmsRole role=roleMapper.selectByPrimaryKey(roleId);
+        if(role==null){
+            return 0;
+        }
+
+        role.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
+        role.setUpdateDate(new Date());
+        return roleMapper.updateByPrimaryKey(role);
     }
 }

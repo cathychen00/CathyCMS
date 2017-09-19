@@ -2,6 +2,7 @@ package com.cathy.cms.service;
 
 import com.data.pojo.CmsRole;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -9,4 +10,13 @@ import java.util.Set;
  */
 public interface RoleService {
     Set<CmsRole> findByUserId(Integer userId);
+
+    List<CmsRole> listAllRoles();
+
+    CmsRole findByRoleId(Integer roleId);
+
+    int deleteByRoleId(int roleId);
+
+    int resetByRoleId(int roleId);
+
 }
