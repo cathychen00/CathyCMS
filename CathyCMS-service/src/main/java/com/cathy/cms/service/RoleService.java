@@ -19,4 +19,7 @@ public interface RoleService {
 
     int resetByRoleId(int roleId);
 
+    int insert(CmsRole role);
+
+    int update(CmsRole role);
 }

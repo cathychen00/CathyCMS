@@ -7,18 +7,19 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${menu}"></h1>
-    <form id="myForm" class="form-horizontal" th:action="@{/role/save}" method="post">
+    <form id="myForm" class="form-horizontal"  th:object="${role}">
+        <input type="hidden" th:field="*{roleId}">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="name">角色名称</label>
                 <div class="controls">
-                    <input type="text" class="input-xlarge" id="name" name="name">
+                    <input type="text" class="input-xlarge" th:field="*{name}">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="description">角色描述</label>
                 <div class="controls">
-                    <textarea class="input-xlarge" id="description" rows="3"></textarea>
+                    <textarea class="input-xlarge" th:field="*{description}" rows="3"></textarea>
                 </div>
             </div>
             <div class="control-group">
@@ -42,8 +43,19 @@
 <th:block layout:fragment="script">
     <script type="text/javascript">
         $.validator.setDefaults({
-            submitHandler: function (form) {
-                form.submit();
+            submitHandler: function(form) {
+                $(form).ajaxSubmit({
+                    url:"[[@{/role/save}]]",
+                    type:"post",
+                    dataType:"json",
+                    success:function(json){
+                        if(json!=null&&json.returncode==0){
+                            window.location.href="[[@{/role/list}]]";
+                        }else{
+                            alert("保存失败");
+                        }
+                    }
+                });
             }
         });
 

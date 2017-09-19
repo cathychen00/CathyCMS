@@ -60,4 +60,23 @@ public class RoleServiceImpl implements RoleService {
         role.setUpdateDate(new Date());
         return roleMapper.updateByPrimaryKey(role);
     }
+
+    @Override
+    public int insert(CmsRole role) {
+        role.setCreateDate(new Date());
+        role.setUpdateDate(new Date());
+        role.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
+        return roleMapper.insert(role);
+    }
+
+    @Override
+    public int update(CmsRole roleUpdate) {
+        CmsRole role=roleMapper.selectByPrimaryKey(roleUpdate.getRoleId());
+        role.setUpdateDate(new Date());
+        role.setName(roleUpdate.getName());
+        role.setDescription(roleUpdate.getDescription());
+        //todo:更新角色关联的资源
+
+        return roleMapper.updateByPrimaryKey(role);
+    }
 }

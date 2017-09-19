@@ -34,6 +34,11 @@ public class RoleController {
         return "/role/list";
     }
 
+    /**
+     * 删除角色
+     * @param roleId 角色id
+     * @return jsonResult.returncode=0表示成功
+     */
     @RequestMapping("delete")
     @ResponseBody
     public JsonResult delete(int roleId){
@@ -48,6 +53,11 @@ public class RoleController {
         return jsonResult;
     }
 
+    /**
+     * 恢复角色
+     * @param roleId 角色id
+     * @return jsonResult.returncode=0表示成功
+     */
     @RequestMapping("reset")
     @ResponseBody
     public JsonResult reset(int roleId){
@@ -62,6 +72,10 @@ public class RoleController {
         return jsonResult;
     }
 
+    /**
+     * 新增/修改角色
+     * @param roleId 角色id
+     */
     @RequestMapping("/edit")
     public String edit(Integer roleId,Model model){
         CmsRole role;
@@ -79,5 +93,31 @@ public class RoleController {
         return "/role/edit";
     }
 
+    /**
+     * 保存角色
+     * @param role 角色实体
+     * @return jsonResult.returncode=0表示成功
+     */
+    @RequestMapping("/save")
+    @ResponseBody
+    public JsonResult save(CmsRole role){
+        JsonResult jsonResult=new JsonResult(){{
+            setReturncode(-1);
+            setMessage("保存失败");
+        }};
 
+        int result;
+        if(role.getRoleId()==null||role.getRoleId()==0){
+            result=roleService.insert(role);
+        }else{
+            result=roleService.update(role);
+        }
+
+        if(result>0){
+            jsonResult.setReturncode(0);
+            jsonResult.setMessage("保存成功");
+        }
+
+        return jsonResult;
+    }
 }
