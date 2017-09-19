@@ -24,9 +24,9 @@
 
 
 # 三、详细技术点相关文章：
-[解决thymeleaf layout布局不生效](http://www.cnblogs.com/janes/p/7524941.html)
-[jquery.form.js+jquery.validation.js实现表单校验和提交](http://www.cnblogs.com/janes/p/7553137.html)
-[shiro入门示例](http://www.cnblogs.com/janes/p/7553198.html)
+- [解决thymeleaf layout布局不生效](http://www.cnblogs.com/janes/p/7524941.html)
+- [jquery.form.js+jquery.validation.js实现表单校验和提交](http://www.cnblogs.com/janes/p/7553137.html)
+- [shiro入门示例](http://www.cnblogs.com/janes/p/7553198.html)
 
 
 
