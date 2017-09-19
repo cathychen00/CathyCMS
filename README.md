@@ -10,8 +10,8 @@
 - 站点采用 spring mvc
 - 视图采用 thymeleaf
 - bootstrap布局
+- 表单校验采用jquery validation插件
 - 登录和权限控制集成了 shiro
-
 
 ##待完成：
 - 实现对每个请求的权限控制

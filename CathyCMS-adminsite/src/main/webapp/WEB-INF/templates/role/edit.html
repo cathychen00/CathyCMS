@@ -7,7 +7,7 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${menu}"></h1>
-    <form class="form-horizontal" th:action="@{/role/save}" method="post">
+    <form id="myForm" class="form-horizontal" th:action="@{/role/save}" method="post">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="name">角色名称</label>
@@ -24,14 +24,40 @@
             <div class="control-group">
                 <label class="control-label" for="select01">Client</label>
                 <div class="controls">
-                    <select id="select01"> <option>-- Select client --</option> <option>Bad Robot</option> <option>Evil Genius</option> <option>Monsters Inc</option> </select>
+                    <select id="select01">
+                        <option>-- Select client --</option>
+                        <option>Bad Robot</option>
+                        <option>Evil Genius</option>
+                        <option>Monsters Inc</option>
+                    </select>
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">保存</button> <button class="btn">返回列表</button>
+                <button type="submit" class="btn btn-primary">保存</button>
+                <button class="btn">返回列表</button>
             </div>
         </fieldset>
     </form>
 </div>
+<th:block layout:fragment="script">
+    <script type="text/javascript">
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+
+        $().ready(function () {
+            $("#myForm").validate({
+                rules: {
+                    name: "required"
+                },
+                messages: {
+                    name: "请输入角色名称"
+                }
+            });
+        });
+    </script>
+</th:block>
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.cathy.cms.controller;
 import com.cathy.cms.service.RoleService;
 import com.cathy.common.models.JsonResult;
 import com.data.pojo.CmsRole;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
