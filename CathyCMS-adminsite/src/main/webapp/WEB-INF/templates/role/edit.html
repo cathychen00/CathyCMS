@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title th:text="${menu}"></title>
+    <link rel="stylesheet" th:href="@{/static/zTree_v3/css/zTreeStyle/zTreeStyle.css}">
 </head>
 <body>
 <div layout:fragment="content">
     <h1 th:text="${menu}"></h1>
-    <form id="myForm" class="form-horizontal"  th:object="${role}">
+    <form id="myForm" class="form-horizontal" th:object="${role}">
         <input type="hidden" th:field="*{roleId}">
+        <input type="hidden" name="resourceIds" id="resourceIds">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="name">角色名称</label>
@@ -23,14 +25,9 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="select01">Client</label>
+                <label class="control-label">菜单</label>
                 <div class="controls">
-                    <select id="select01">
-                        <option>-- Select client --</option>
-                        <option>Bad Robot</option>
-                        <option>Evil Genius</option>
-                        <option>Monsters Inc</option>
-                    </select>
+                    <ul id="ztree" class="ztree"></ul>
                 </div>
             </div>
             <div class="form-actions">
@@ -41,16 +38,34 @@
     </form>
 </div>
 <th:block layout:fragment="script">
-    <script type="text/javascript">
+    <script type="text/javascript" th:src="@{/static/zTree_v3/js/jquery.ztree.core.js}"></script>
+    <script type="text/javascript" th:src="@{/static/zTree_v3/js/jquery.ztree.excheck.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var zTreeObj;
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            check: {
+                enable: true,
+                chkStyle: "checkbox",
+                chkboxType: {"Y": "ps", "N": "ps"}
+            }
+        };
+
         $.validator.setDefaults({
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 $(form).ajaxSubmit({
-                    url:"[[@{/role/save}]]",
+                    url:/*[[@{/role/save}]]*/,
                     type:"post",
                     dataType:"json",
+                    beforeSerialize: fillResourceIds,
                     success:function(json){
                         if(json!=null&&json.returncode==0){
-                            window.location.href="[[@{/role/list}]]";
+                            window.location.href=/*[[@{/role/list}]]*/;
                         }else{
                             alert("保存失败");
                         }
@@ -58,6 +73,18 @@
                 });
             }
         });
+        function fillResourceIds(){
+            var resourceIds=new Array();
+
+            var treeObj = $.fn.zTree.getZTreeObj("ztree");
+            var nodes = treeObj.getCheckedNodes(true);
+            if(nodes){
+                for(var i in nodes){
+                    resourceIds.push(nodes[i].id);
+                }
+            }
+            $("#resourceIds").val(resourceIds);
+        }
 
         $().ready(function () {
             $("#myForm").validate({
@@ -68,7 +95,12 @@
                     name: "请输入角色名称"
                 }
             });
+
+            //加载资源树
+            var zNodes = eval(/*[[${resourceJson}]]*/);
+            zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
         });
+        /*]]>*/
     </script>
 </th:block>
 </body>

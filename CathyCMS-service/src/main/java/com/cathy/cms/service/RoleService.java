@@ -22,4 +22,6 @@ public interface RoleService {
     int insert(CmsRole role);
 
     int update(CmsRole role);
+
+    void saveRoleResourceRelation(Integer roleId, List<Integer> resourceIds);
 }

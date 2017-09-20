@@ -4,6 +4,7 @@ import com.data.model.ResourceItem;
 import com.data.pojo.CmsResource;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,4 +32,6 @@ public interface ResourceService {
     void deleteResource(int id);
 
     void resetResource(int id);
+
+    List<Map<String, Object>> getTreeMap();
 }

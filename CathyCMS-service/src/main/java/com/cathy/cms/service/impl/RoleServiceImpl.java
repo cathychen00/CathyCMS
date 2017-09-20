@@ -3,8 +3,10 @@ package com.cathy.cms.service.impl;
 import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.service.RoleService;
 import com.data.mapper.CmsRoleMapper;
+import com.data.mapper.CmsRoleResourceRelMapper;
 import com.data.pojo.CmsRole;
 import com.data.pojo.CmsRoleCriteria;
+import com.data.pojo.CmsRoleResourceRelKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     CmsRoleMapper roleMapper;
+
+    @Autowired
+    CmsRoleResourceRelMapper roleResourceRelMapper;
 
     @Override
     public Set<CmsRole> findByUserId(Integer userId) {
@@ -79,4 +84,20 @@ public class RoleServiceImpl implements RoleService {
 
         return roleMapper.updateByPrimaryKey(role);
     }
+
+    @Override
+    public void saveRoleResourceRelation(final Integer roleId, List<Integer> resourceIds) {
+        roleResourceRelMapper.deleteByRole(roleId);
+        if(resourceIds!=null&&!resourceIds.isEmpty()){
+            for(final Integer resourceId:resourceIds){
+                CmsRoleResourceRelKey relation=new CmsRoleResourceRelKey(){{
+                    setRoleId(roleId);
+                    setResourcesId(resourceId);
+                }};
+                roleResourceRelMapper.insert(relation);
+            }
+        }
+    }
+
+
 }

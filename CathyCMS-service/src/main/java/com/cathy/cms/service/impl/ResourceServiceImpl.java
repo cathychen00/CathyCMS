@@ -26,14 +26,14 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<CmsResource> listAllResources() {
-        CmsResourceCriteria criteria=new CmsResourceCriteria();
+        CmsResourceCriteria criteria = new CmsResourceCriteria();
         criteria.setOrderByClause(" order_no ");
         return resourceMapper.selectByExample(criteria);
     }
 
     @Override
     public List<CmsResource> listResourcesByType(String type) {
-        CmsResourceCriteria criteria=new CmsResourceCriteria();
+        CmsResourceCriteria criteria = new CmsResourceCriteria();
         criteria.createCriteria().andTypeEqualTo(type);
 
         return resourceMapper.selectByExample(criteria);
@@ -114,7 +114,7 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public void updateResource(CmsResource resource) {
-        CmsResource oldResource=resourceMapper.selectByPrimaryKey(resource.getResourceId());
+        CmsResource oldResource = resourceMapper.selectByPrimaryKey(resource.getResourceId());
 
         oldResource.setUpdateDate(new Date());
         oldResource.setResourceName(resource.getResourceName());
@@ -129,9 +129,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public void deleteResource(int id) {
-        CmsResource resource=resourceMapper.selectByPrimaryKey(id);
-        if(resource==null){
-            return ;
+        CmsResource resource = resourceMapper.selectByPrimaryKey(id);
+        if (resource == null) {
+            return;
         }
 
         resource.setDeleteFlag(ConstantHelper.DELETE_FLAG_DELETED);
@@ -141,13 +141,47 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public void resetResource(int id) {
-        CmsResource resource=resourceMapper.selectByPrimaryKey(id);
+        CmsResource resource = resourceMapper.selectByPrimaryKey(id);
         resource.setUpdateDate(new Date());
-        if(resource==null){
-            return ;
+        if (resource == null) {
+            return;
         }
 
         resource.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
         resourceMapper.updateByPrimaryKey(resource);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTreeMap() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+        //根节点
+        Map<String, Object> root = new HashMap<String, Object>();
+        root.put("id", 0);
+        root.put("name", "root");
+        root.put("pId", -1);
+        root.put("open", true);
+        list.add(root);
+
+        //全部资源
+        List<CmsResource> resources = listAllResources();
+        if (resources != null && !resources.isEmpty()) {
+            for (CmsResource r : resources) {
+                if (r.getDeleteFlag().equals(ConstantHelper.DELETE_FLAG_NORMAL)) {
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("id", r.getResourceId());
+                    map.put("name", r.getResourceName());
+                    Integer pId=0;
+                    if(r.getParentId()!=null&&r.getParentId()>0){
+                        pId=r.getParentId();
+                    }
+                    map.put("pId", pId);
+
+                    list.add(map);
+                }
+            }
+        }
+
+        return list;
     }
 }
