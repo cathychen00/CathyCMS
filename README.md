@@ -17,6 +17,7 @@
 - 视图采用 thymeleaf
 - bootstrap布局
 - 表单校验采用jquery validation插件
+- ztree展现菜单树形结构
 - 登录和权限控制集成了 shiro
 
 ## 待完成：
@@ -27,7 +28,7 @@
 - [解决thymeleaf layout布局不生效](http://www.cnblogs.com/janes/p/7524941.html)
 - [jquery.form.js+jquery.validation.js实现表单校验和提交](http://www.cnblogs.com/janes/p/7553137.html)
 - [shiro入门示例](http://www.cnblogs.com/janes/p/7553198.html)
-
+- [使用ztree展示树形菜单结构](http://www.cnblogs.com/janes/p/7567300.html)
 
 
 # 四、声明

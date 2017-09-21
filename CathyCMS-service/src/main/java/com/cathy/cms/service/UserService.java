@@ -1,5 +1,7 @@
 package com.cathy.cms.service;
 
+import com.cathy.common.models.PageModel;
+import com.data.model.UserQueryDTO;
 import com.data.pojo.CmsUser;
 
 /**
@@ -7,4 +9,8 @@ import com.data.pojo.CmsUser;
  */
 public interface UserService {
     CmsUser findUserByName(String username);
+
+    PageModel<CmsUser> findUsersPaging(UserQueryDTO queryDTO);
+
+    int count(UserQueryDTO queryDTO);
 }

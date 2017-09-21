@@ -75,7 +75,7 @@ public class MenuController {
             resourceService.updateResource(resource);
         }
 
-        return "/menu/index";
+        return "redirect:/menu/index";
     }
 
     @RequestMapping("/delete")

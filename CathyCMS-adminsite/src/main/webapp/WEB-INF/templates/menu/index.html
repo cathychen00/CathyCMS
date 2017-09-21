@@ -87,9 +87,9 @@
                                onclick="editResource(this);">编辑</a>
                             <th:block th:switch="${r.deleteFlag}">
                                 <a th:case="0" onclick="del(this)"
-                                   th:attr="data-id=${r.resourceId}">删除</a>
+                                   th:attr="data-id=${r.resourceId}" class="btn btn-xs btn-danger">删除</a>
                                 <a th:case="1" onclick="reset(this)"
-                                   th:attr="data-id=${r.resourceId}">恢复</a>
+                                   th:attr="data-id=${r.resourceId}" class="btn btn-xs btn-success">恢复</a>
                             </th:block>
                         </div>
                     </td>

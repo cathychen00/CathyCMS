@@ -1,13 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" layout:decorator="task/layout">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <title>用户列表</title>
 </head>
 <body>
-user list
-<div>
-    <span th:text="${session.session_login_user.realName}"></span>
+<div layout:fragment="content">
+    <h1>
+        用户列表
+    </h1>
+    <div class="row">
+        <div class="control-group">
+            <label class="control-label" for="description">用户名：</label>
+            <div class="controls">
+                <input type="text" id="username" name="username" th:text="${query.username}">
+            </div>
+        </div>
+    </div>
+    <th:block th:if="${roles}==null">
+        <div class="well blank-slate">
+            <p>暂时还没有用户数据</p>
+            <a th:href="@{/user/edit}" class="btn btn-primary"><i class="icon-plus icon-white"></i> 增加用户</a>
+        </div>
+    </th:block>
+    <th:block th:if="${pageModel.totalCount}!=0">
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>
+                    <span>序号</span>
+                </th>
+                <th>
+                    <span>角色</span>
+                </th>
+                <th>
+                    <span>账号</span>
+                </th>
+                <th>
+                    <span>姓名</span>
+                </th>
+                <th>
+                    <span>电话号码</span>
+                </th>
+                <th>
+                    <span>创建时间</span>
+                </th>
+                <th>
+                    <span>状态</span>
+                </th>
+                <td>
+                    <span>操作</span>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="u:${pageModel.items}">
+                <tr>
+                    <td>
+                        <span>序号</span>
+                    </td>
+                    <td>
+                        <span>角色</span>
+                    </td>
+                    <td>
+                        <span>账号</span>
+                    </td>
+                    <td>
+                        <span>姓名</span>
+                    </td>
+                    <td>
+                        <span>电话号码</span>
+                    </td>
+                    <td>
+                        <span>创建时间</span>
+                    </td>
+                    <td>
+                        <span>状态</span>
+                    </td>
+                    <td>
+                        <span>操作</span>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </th:block>
+    <p>
+        <button type="button" class="btn btn-success" id="btnAdd">新增</button>
+    </p>
 </div>
+<th:block layout:fragment="script">
+    <!--<script type="text/javascript">-->
+        <!--$(document).ready(function () {-->
+            <!--$("[name='btnDelete']").click(function () {-->
+                <!--if (confirm("确实删除该角色吗")) {-->
+                    <!--var roleId = $(this).attr("data-id");-->
+                    <!--deleteRole(roleId);-->
+                <!--}-->
+                <!--return false;-->
+            <!--});-->
+
+            <!--$("[name='btnReset']").click(function () {-->
+                <!--var roleId = $(this).attr("data-id");-->
+                <!--resetRole(roleId);-->
+                <!--return false;-->
+            <!--});-->
+
+            <!--$("#btnAdd").click(function(){-->
+                <!--window.location.href="[[@{/role/edit}]]";-->
+            <!--});-->
+        <!--});-->
+
+        <!--function deleteRole(roleId) {-->
+            <!--$.ajax({-->
+                <!--url: "[[@{/role/delete}]]",-->
+                <!--data: {"roleId": roleId},-->
+                <!--method: "post",-->
+                <!--success: function (json) {-->
+                    <!--if (json && json.returncode == "0") {-->
+                        <!--window.location.reload();-->
+                    <!--} else {-->
+                        <!--alert("删除失败");-->
+                    <!--}-->
+                <!--},-->
+                <!--error: function () {-->
+                    <!--alert("删除失败");-->
+                <!--}-->
+            <!--});-->
+        <!--}-->
+
+        <!--function resetRole(roleId) {-->
+            <!--$.ajax({-->
+                <!--url: "[[@{/role/reset}]]",-->
+                <!--data: {"roleId": roleId},-->
+                <!--method: "post",-->
+                <!--success: function (json) {-->
+                    <!--if (json && json.returncode == "0") {-->
+                        <!--window.location.reload();-->
+                    <!--} else {-->
+                        <!--alert("恢复失败");-->
+                    <!--}-->
+                <!--},-->
+                <!--error: function () {-->
+                    <!--alert("恢复失败");-->
+                <!--}-->
+            <!--});-->
+        <!--}-->
+    <!--</script>-->
+</th:block>
 </body>
 </html>

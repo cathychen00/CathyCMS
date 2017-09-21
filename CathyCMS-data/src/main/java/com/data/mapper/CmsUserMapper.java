@@ -69,4 +69,6 @@ public interface CmsUserMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(CmsUser record);
+
+    int count(CmsUserCriteria criteria);
 }
