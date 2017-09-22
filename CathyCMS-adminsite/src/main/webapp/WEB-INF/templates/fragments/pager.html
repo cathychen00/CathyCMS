@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="pagination" th:fragment="pager">
+    <ul>
+        <li th:class="${pageModel.pageIndex}==1?'disabled':''">
+            <a href="javascript:void(0);" id="btnPrev">«</a>
+        </li>
+        <th:block th:each="i:${#numbers.sequence(1,pageModel.totalPage)}">
+            <li th:class="${i==pageModel.pageIndex}?'active':''">
+                <a href="javascript:void(0);" th:text="${i}" name="btnPage" th:attr="data-id=${i}"></a>
+            </li>
+        </th:block>
+        <li th:class="${pageModel.pageIndex==pageModel.totalPage}?'disabled':''">
+            <a href="javascript:void(0);" id="btnNext">»</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

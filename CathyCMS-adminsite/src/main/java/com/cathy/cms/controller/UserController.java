@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private final Integer PAGE_SIZE=10;
+    private final Integer PAGE_SIZE=1;
 
     @Autowired
     UserService userService;
@@ -31,6 +31,7 @@ public class UserController {
         queryDTO.setPageSize(PAGE_SIZE);
 
         int totalCount=userService.count(queryDTO);
+        //todo：补全用户角色
         PageModel<CmsUser> pageModel=userService.findUsersPaging(queryDTO);
         pageModel.setTotalCount(totalCount);
 
