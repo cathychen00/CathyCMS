@@ -1,6 +1,7 @@
 package com.cathy.cms.controller;
 
 import cms.cathy.common.utils.ConstantHelper;
+import com.cathy.cms.model.ResourceViewModel;
 import com.cathy.cms.service.ResourceService;
 import com.data.pojo.CmsResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,11 +30,22 @@ public class MenuController {
      */
     @RequestMapping("/index")
     public String index(Model model) {
-
-        //todo:补全菜单parent数据
+        List<ResourceViewModel> list=new ArrayList<>();
         List<CmsResource> resources = resourceService.listAllResources();
-        model.addAttribute("resources", resources);
+        if(resources!=null&&!resources.isEmpty()) {
+            for (CmsResource r : resources) {
+                ResourceViewModel item = new ResourceViewModel();
+                item.setMainInfo(r);
 
+                if (r.getParentId() != null) {
+                    CmsResource parent = resourceService.findByResourceId(r.getParentId());
+                    item.setParent(parent);
+                }
+
+                list.add(item);
+            }
+            model.addAttribute("resources", list);
+        }
 
         return "/menu/index";
     }

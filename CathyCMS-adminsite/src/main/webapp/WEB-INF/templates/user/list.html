@@ -98,7 +98,9 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         $(document).ready(function(){
-            $("#btnQuery").click(submitQuery());
+            $("#btnQuery").click(function () {
+                submitQuery();
+            });
         });
 
         function submitQuery(){

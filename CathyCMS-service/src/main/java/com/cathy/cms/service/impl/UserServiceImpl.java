@@ -65,4 +65,9 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.count(criteria);
     }
+
+    @Override
+    public CmsUser findByUserId(Integer userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
 }

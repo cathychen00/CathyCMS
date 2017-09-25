@@ -3,36 +3,57 @@
 <head>
     <meta charset="utf-8">
     <title th:text="${pageTitle}"></title>
-    <link rel="stylesheet" th:href="@{/static/zTree_v3/css/zTreeStyle/zTreeStyle.css}">
 </head>
 <body>
 <div layout:fragment="content">
-    <h1 th:text="${pateTitle}"></h1>
-    <form id="myForm" class="form-horizontal" th:object="${role}">
-        <input type="hidden" th:field="*{roleId}">
-        <input type="hidden" name="resourceIds" id="resourceIds">
+    <h1 th:text="${pageTitle}"></h1>
+    <form id="myForm" class="form-horizontal" th:object="${user}">
+        <input type="hidden" th:field="*{userId}">
         <fieldset>
             <div class="control-group">
-                <label class="control-label" for="name">角色名称</label>
+                <label class="control-label" for="username">用户名称</label>
                 <div class="controls">
-                    <input type="text" class="input-xlarge" th:field="*{name}">
+                    <input type="text" class="input-xlarge" th:field="*{username}">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="description">角色描述</label>
+                <label class="control-label" for="realName">真实姓名</label>
                 <div class="controls">
-                    <textarea class="input-xlarge" th:field="*{description}" rows="3"></textarea>
+                    <input type="text" class="input-xlarge" th:field="*{realName}">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">菜单</label>
+                <label class="control-label" for="password">密码</label>
                 <div class="controls">
-                    <ul id="ztree" class="ztree"></ul>
+                    <input type="password" class="input-xlarge" th:field="*{password}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="mobile">手机</label>
+                <div class="controls">
+                    <input type="text" class="input-xlarge" th:field="*{mobile}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">Email</label>
+                <div class="controls">
+                    <input type="text" class="input-xlarge" th:field="*{email}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="roleIds">角色</label>
+                <div class="controls">
+                    <th:block th:each="r:${roles}">
+                        <label class="checkbox">
+                            <input type="checkbox" name="roleIds" th:value="${r.roleId}">
+                            <th:block th:text="${r.name}"></th:block>
+                        </label>
+                    </th:block>
                 </div>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">保存</button>
-                <button class="btn">返回列表</button>
+                <a class="btn" th:href="@{/user/list}">返回列表</a>
             </div>
         </fieldset>
     </form>

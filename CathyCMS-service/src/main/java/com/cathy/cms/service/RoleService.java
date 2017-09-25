@@ -13,6 +13,8 @@ public interface RoleService {
 
     List<CmsRole> listAllRoles();
 
+    List<CmsRole> listAllRoles(String deleteFlag);
+
     CmsRole findByRoleId(Integer roleId);
 
     int deleteByRoleId(int roleId);

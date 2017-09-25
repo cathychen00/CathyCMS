@@ -38,6 +38,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<CmsRole> listAllRoles(String deleteFlag) {
+        CmsRoleCriteria criteria=new CmsRoleCriteria();
+        criteria.createCriteria().andDeleteFlagEqualTo(deleteFlag);
+        return roleMapper.selectByExample(criteria);
+    }
+
+    @Override
     public CmsRole findByRoleId(Integer roleId) {
         return roleMapper.selectByPrimaryKey(roleId);
     }

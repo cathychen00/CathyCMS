@@ -13,4 +13,6 @@ public interface UserService {
     PageModel<CmsUser> findUsersPaging(UserQueryDTO queryDTO);
 
     int count(UserQueryDTO queryDTO);
+
+    CmsUser findByUserId(Integer userId);
 }

@@ -93,16 +93,16 @@ public class RoleController {
     @RequestMapping("/edit")
     public String edit(Integer roleId, Model model) {
         CmsRole role;
-        String menu;
+        String pageTitle;
         if (roleId == null) {
             role = new CmsRole();
-            menu = "新增角色";
+            pageTitle = "新增角色";
         } else {
             role = roleService.findByRoleId(roleId);
-            menu = "编辑角色";
+            pageTitle = "编辑角色";
         }
         model.addAttribute("role", role);
-        model.addAttribute("menu", menu);
+        model.addAttribute("pageTitle", pageTitle);
 
         //树形菜单资源
         List<Map<String, Object>> allResources = resourceService.getTreeMap();

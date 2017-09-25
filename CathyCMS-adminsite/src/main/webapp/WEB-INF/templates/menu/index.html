@@ -52,44 +52,44 @@
             <th:block th:each="r:${resources}">
                 <tr>
                     <td>
-                        <span th:text="${r.orderNo}"></span>
+                        <span th:text="${r.mainInfo.orderNo}"></span>
                     </td>
                     <td>
                         <div>
-                            <i th:class="${r.icon}"></i>
-                            <span th:text="${r.resourceName }"></span>
+                            <i th:class="${r.mainInfo.icon}"></i>
+                            <span th:text="${r.mainInfo.resourceName }"></span>
                         </div>
                     </td>
                     <td>
-                        <th:block th:switch="${r.type}">
+                        <th:block th:switch="${r.mainInfo.type}">
                             <span th:case="module">模块</span>
                             <span th:case="page">页面</span>
                         </th:block>
                     </td>
                     <td>
-                        <span th:text="${r.url}"></span>
+                        <span th:text="${r.mainInfo.url}"></span>
                     </td>
                     <td>
-                        <!--<div class="t_text tc">-->
-                        <!--<i class="icon">${r.parent.icon }</i>-->
-                        <!--<span>${r.parent.name }</span>-->
-                        <!--</div>-->
+                        <div th:unless="${r.parent==null}">
+                        <i th:class="${r.parent.icon}"></i>
+                        <span th:text="${r.parent.resourceName}"></span>
+                        </div>
                     </td>
                     <td>
-                        <th:block th:switch="${r.deleteFlag}">
+                        <th:block th:switch="${r.mainInfo.deleteFlag}">
                             <span th:case="0">正常</span>
                             <span th:case="1">删除</span>
                         </th:block>
                     </td>
                     <td>
                         <div class="t_link">
-                            <a href="javascript:void(0);" th:attr="data-id=${r.resourceId}"
-                               onclick="editResource(this);">编辑</a>
-                            <th:block th:switch="${r.deleteFlag}">
+                            <a href="javascript:void(0);" th:attr="data-id=${r.mainInfo.resourceId}"
+                               onclick="editResource(this);" class="btn btn-xs">编辑</a>
+                            <th:block th:switch="${r.mainInfo.deleteFlag}">
                                 <a th:case="0" onclick="del(this)"
-                                   th:attr="data-id=${r.resourceId}" class="btn btn-xs btn-danger">删除</a>
+                                   th:attr="data-id=${r.mainInfo.resourceId}" class="btn btn-xs btn-danger">删除</a>
                                 <a th:case="1" onclick="reset(this)"
-                                   th:attr="data-id=${r.resourceId}" class="btn btn-xs btn-success">恢复</a>
+                                   th:attr="data-id=${r.mainInfo.resourceId}" class="btn btn-xs btn-success">恢复</a>
                             </th:block>
                         </div>
                     </td>
