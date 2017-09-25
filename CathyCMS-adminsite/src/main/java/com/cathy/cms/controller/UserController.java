@@ -3,7 +3,6 @@ package com.cathy.cms.controller;
 import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.service.RoleService;
 import com.cathy.cms.service.UserService;
-import com.cathy.cms.utils.WebHelper;
 import com.cathy.common.models.PageModel;
 import com.data.model.UserQueryDTO;
 import com.data.pojo.CmsRole;
@@ -14,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 陈敬 on 17/9/12.
@@ -61,8 +62,17 @@ public class UserController {
         model.addAttribute("user",user);
         model.addAttribute("pageTitle",pageTitle);
 
+        //全部资源
         List<CmsRole> roles=roleService.listAllRoles(ConstantHelper.DELETE_FLAG_NORMAL);
         model.addAttribute("roles",roles);
+
+        //角色拥有的资源
+        Set<CmsRole> userRoles= roleService.findByUserId(userId);
+        List<String> userRoleIds=new ArrayList<>();
+        for(CmsRole r:userRoles){
+            userRoleIds.add(r.getRoleId().toString());
+        }
+        model.addAttribute("roleIds",String.join(",",userRoleIds));
 
         return "/user/edit";
     }
