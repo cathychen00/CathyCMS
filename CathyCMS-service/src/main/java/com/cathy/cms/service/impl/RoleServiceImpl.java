@@ -87,7 +87,6 @@ public class RoleServiceImpl implements RoleService {
         role.setUpdateDate(new Date());
         role.setName(roleUpdate.getName());
         role.setDescription(roleUpdate.getDescription());
-        //todo:更新角色关联的资源
 
         return roleMapper.updateByPrimaryKey(role);
     }
