@@ -15,7 +15,7 @@
                 <div class="controls">
                     <th:block th:if="${user.userId==null||user.userId==0}">
                         <input type="text" class="input-xlarge" th:field="*{username}"
-                               required minlength="3" maxlength="20" th:attr="remote='/user/validateUsername'">
+                               required minlength="3" maxlength="20" th:attr="remote='/user/ajax/validateUsername'">
                     </th:block>
                     <th:block th:if="${user.userId!=null&&user.userId!=0}">
                         <input type="text" th:field="*{username}" disabled>
@@ -90,7 +90,7 @@
         $.validator.setDefaults({
             submitHandler: function (form) {
                 $(form).ajaxSubmit({
-                    url:/*[[@{/user/save}]]*/,
+                    url:/*[[@{/user/ajax/save}]]*/,
                     type: "post",
                     dataType: "json",
                     success: function (result) {

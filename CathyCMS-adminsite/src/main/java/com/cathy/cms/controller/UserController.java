@@ -83,7 +83,7 @@ public class UserController {
         return "/user/edit";
     }
 
-    @RequestMapping("/save")
+    @RequestMapping("/ajax/save")
     @ResponseBody
     public int save(CmsUser user, Integer[] roleIds) {
         int result;
@@ -99,7 +99,7 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/validateUsername")
+    @RequestMapping("/ajax/validateUsername")
     @ResponseBody
     public boolean validateUsername(String username) {
         CmsUser user = userService.findUserByName(username);
@@ -165,6 +165,18 @@ public class UserController {
         return null;
     }
 
+
+    @RequestMapping("/ajax/delete")
+    @ResponseBody
+    public int delete(int userId){
+        return userService.delete(userId);
+    }
+
+    @RequestMapping("/ajax/reset")
+    @ResponseBody
+    public int reset(int userId){
+        return userService.reset(userId);
+    }
 
     @RequestMapping("/update_pwd")
     public String updatePassword(Model model, HttpSession session) {

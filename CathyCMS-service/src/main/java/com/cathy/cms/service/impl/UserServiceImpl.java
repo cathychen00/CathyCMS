@@ -1,6 +1,7 @@
 package com.cathy.cms.service.impl;
 
 import cms.cathy.common.utils.ConstantHelper;
+import cms.cathy.common.utils.Md5Util;
 import com.cathy.cms.service.UserService;
 import com.cathy.common.models.PageModel;
 import com.data.mapper.CmsUserMapper;
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
         user.setUpdateDate(now);
         user.setCreateDate(now);
         user.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
-        user.setPassword(ConstantHelper.PASSWORD);
+        user.setPassword(Md5Util.generatePassword(ConstantHelper.PASSWORD));
 
         return userMapper.insert(user);
     }
@@ -134,5 +135,25 @@ public class UserServiceImpl implements UserService {
 
             userRoleRelMapper.insert(relation);
         }
+    }
+
+    @Override
+    public int delete(int userId) {
+        CmsUser user=userMapper.selectByPrimaryKey(userId);
+        if(user==null){
+            return -1;
+        }
+        user.setDeleteFlag(ConstantHelper.DELETE_FLAG_DELETED);
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public int reset(int userId) {
+        CmsUser user=userMapper.selectByPrimaryKey(userId);
+        if(user==null){
+            return -1;
+        }
+        user.setDeleteFlag(ConstantHelper.DELETE_FLAG_NORMAL);
+        return userMapper.updateByPrimaryKey(user);
     }
 }

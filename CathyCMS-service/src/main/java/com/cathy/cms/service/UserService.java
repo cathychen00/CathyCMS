@@ -25,4 +25,8 @@ public interface UserService {
     int update(CmsUser user);
 
     void saveUserRoleRelation(Integer userId, Integer[] roleIds);
+
+    int delete(int userId);
+
+    int reset(int userId);
 }

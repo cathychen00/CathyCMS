@@ -91,20 +91,49 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#btnQuery").click(function () {
                 submitQuery();
             });
 
             $("#btnExport").click(function () {
-                var username=$("#username").val();
-                window.location.href="/user/export?username="+username;
+                var username = $("#username").val();
+                window.location.href = "/user/export?username=" + username;
             })
+
+            $("[name='btnDelete']").click(function () {
+                var userId = $(this).attr("data-id");
+                deleteUser(userId);
+            });
+
+            $("[name='btnReset']").click(function () {
+                var userId = $(this).attr("data-id");
+                resetUser(userId);
+            });
         });
 
-        function submitQuery(){
+        function submitQuery() {
             $("#myform").submit();
         }
+
+        function deleteUser(userId) {
+            if (confirm("确定删除该用户吗?")) {
+                $.post(/*[[@{/user/ajax/delete}]]*/, {"userId": userId}, function (result) {
+                    if (result != null && result > 0) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        function resetUser(userId) {
+            $.post(/*[[@{/user/ajax/reset}]]*/, {"userId": userId}, function (result) {
+                if (result != null && result > 0) {
+                    window.location.reload();
+                }
+            });
+        }
+
         /*]]>*/
     </script>
 </th:block>

@@ -25,7 +25,8 @@
 - 表单校验采用jquery validation插件
 - ztree展现菜单树形结构
 - 登录和权限控制集成了 shiro
--……
+- 使用POI导出excel
+- ……
 
 
 # 三、详细技术点相关文章：
@@ -33,6 +34,7 @@
 - [jquery.form.js+jquery.validation.js实现表单校验和提交](http://www.cnblogs.com/janes/p/7553137.html)
 - [shiro入门示例](http://www.cnblogs.com/janes/p/7553198.html)
 - [使用ztree展示树形菜单结构](http://www.cnblogs.com/janes/p/7567300.html)
+- [JAVA POI导出excel](http://www.cnblogs.com/janes/p/7596637.html)
 - ……
 
 # 四、声明
