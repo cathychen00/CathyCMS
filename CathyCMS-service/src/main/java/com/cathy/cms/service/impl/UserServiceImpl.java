@@ -41,6 +41,19 @@ public class UserServiceImpl implements UserService {
         return users.get(0);
     }
 
+
+    @Override
+    public List<CmsUser> findUser(UserQueryDTO queryDTO) {
+        CmsUserCriteria criteria=new CmsUserCriteria();
+        if(queryDTO!=null){
+            if(StringUtils.isNotBlank(queryDTO.getUsername())){
+                criteria.createCriteria().andUsernameLike("%"+queryDTO.getUsername()+"%");
+            }
+        }
+
+        return userMapper.selectByExample(criteria);
+    }
+
     @Override
     public PageModel<CmsUser> findUsersPaging(UserQueryDTO queryDTO) {
         PageModel<CmsUser> pageModel=new PageModel<CmsUser>();

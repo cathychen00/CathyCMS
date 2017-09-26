@@ -28,10 +28,7 @@
                 <thead>
                 <tr>
                     <th>
-                        <span>序号</span>
-                    </th>
-                    <th>
-                        <span>角色</span>
+                        <span>ID</span>
                     </th>
                     <th>
                         <span>账号</span>
@@ -58,9 +55,6 @@
                     <tr>
                         <td>
                             <span th:text="${u.userId}">序号</span>
-                        </td>
-                        <td>
-                            <span></span>
                         </td>
                         <td>
                             <span th:text="${u.username}"></span>
@@ -101,6 +95,11 @@
             $("#btnQuery").click(function () {
                 submitQuery();
             });
+
+            $("#btnExport").click(function () {
+                var username=$("#username").val();
+                window.location.href="/user/export?username="+username;
+            })
         });
 
         function submitQuery(){

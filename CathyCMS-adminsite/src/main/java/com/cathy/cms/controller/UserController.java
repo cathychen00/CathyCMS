@@ -1,19 +1,25 @@
 package com.cathy.cms.controller;
 
 import cms.cathy.common.utils.ConstantHelper;
+import cms.cathy.common.utils.DateUtils;
+import cms.cathy.common.utils.ExcelUtils;
 import com.cathy.cms.service.RoleService;
 import com.cathy.cms.service.UserService;
 import com.cathy.common.models.PageModel;
 import com.data.model.UserQueryDTO;
 import com.data.pojo.CmsRole;
 import com.data.pojo.CmsUser;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -81,19 +87,19 @@ public class UserController {
     @ResponseBody
     public int save(CmsUser user, Integer[] roleIds) {
         int result;
-        if (user.getUserId()==null|| user.getUserId() == 0) {
-            result= userService.insert(user);
+        if (user.getUserId() == null || user.getUserId() == 0) {
+            result = userService.insert(user);
         } else {
-            result= userService.update(user);
+            result = userService.update(user);
         }
 
         //保存用户关联的角色
-        userService.saveUserRoleRelation(user.getUserId(),roleIds);
+        userService.saveUserRoleRelation(user.getUserId(), roleIds);
 
         return result;
     }
 
-    @RequestMapping("validateUsername")
+    @RequestMapping("/validateUsername")
     @ResponseBody
     public boolean validateUsername(String username) {
         CmsUser user = userService.findUserByName(username);
@@ -102,6 +108,63 @@ public class UserController {
         }
         return true;
     }
+
+    @RequestMapping("/export")
+    public String export(String username, HttpServletRequest request, HttpServletResponse repsonse) {
+        //查询用户数据
+        UserQueryDTO queryDTO = new UserQueryDTO() {{
+            setUsername(username);
+        }};
+        List<CmsUser> userList = userService.findUser(queryDTO);
+
+        //表头
+        Map<String, String> headNameMap = new LinkedHashMap<String, String>();
+        headNameMap.put("userId", "ID");
+        headNameMap.put("roleName", "角色");
+        headNameMap.put("userName", "账号");
+        headNameMap.put("realName", "姓名");
+        headNameMap.put("mobile", "电话号码");
+        headNameMap.put("createDate", "创建时间");
+        headNameMap.put("status", "状态");
+
+        //表格数据
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        if (userList != null && userList.size() > 0) {
+            for (CmsUser user : userList) {
+                String statusName = "正常";
+                if (StringUtils.isNotBlank(user.getDeleteFlag()) && user.getDeleteFlag().equals(ConstantHelper.DELETE_FLAG_DELETED)) {
+                    statusName = "删除";
+                }
+
+                String createDate = "";
+                if (user.getCreateDate() != null) {
+                    createDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(user.getCreateDate());
+                }
+
+                String roleName = "";
+                Set<CmsRole> roleSet = roleService.findByUserId(user.getUserId());
+                if (roleSet != null && roleSet.size() > 0) {
+                    for (CmsRole r : roleSet) {
+                        roleName += r.getName() + " ";
+                    }
+                }
+
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("userId", user.getUserId());
+                map.put("roleName", roleName);
+                map.put("userName", user.getUsername());
+                map.put("realName", user.getRealName());
+                map.put("mobile", user.getMobile());
+                map.put("createDate", createDate);
+                map.put("status", statusName);
+                list.add(map);
+            }
+        }
+
+        ExcelUtils.exportXlsx(repsonse, "用户", headNameMap, list);
+        return null;
+    }
+
 
     @RequestMapping("/update_pwd")
     public String updatePassword(Model model, HttpSession session) {
