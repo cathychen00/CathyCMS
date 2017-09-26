@@ -15,4 +15,10 @@ public interface UserService {
     int count(UserQueryDTO queryDTO);
 
     CmsUser findByUserId(Integer userId);
+
+    int insert(CmsUser user);
+
+    int update(CmsUser user);
+
+    void saveUserRoleRelation(Integer userId, Integer[] roleIds);
 }

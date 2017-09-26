@@ -125,4 +125,7 @@
       order by ${orderByClause}
     </if>
   </select>
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from cms_user_role_rel where user_id=#{userId}
+  </delete>
 </mapper>

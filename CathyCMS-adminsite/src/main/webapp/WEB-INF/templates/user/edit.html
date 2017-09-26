@@ -9,24 +9,23 @@
     <h1 th:text="${pageTitle}"></h1>
     <form id="myForm" class="form-horizontal" th:object="${user}">
         <input type="hidden" th:field="*{userId}">
-        <input type="hidden" th:field="${roleIds}">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="username">用户名称</label>
                 <div class="controls">
-                    <input type="text" class="input-xlarge" th:field="*{username}">
+                    <th:block th:if="${user.userId==null||user.userId==0}">
+                        <input type="text" class="input-xlarge" th:field="*{username}"
+                               required minlength="3" maxlength="20" th:attr="remote='/user/validateUsername'">
+                    </th:block>
+                    <th:block th:if="${user.userId!=null&&user.userId!=0}">
+                        <input type="text" th:field="*{username}" disabled>
+                    </th:block>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="realName">真实姓名</label>
                 <div class="controls">
-                    <input type="text" class="input-xlarge" th:field="*{realName}">
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="password">密码</label>
-                <div class="controls">
-                    <input type="password" class="input-xlarge" th:field="*{password}">
+                    <input type="text" class="input-xlarge" th:field="*{realName}" required>
                 </div>
             </div>
             <div class="control-group">
@@ -38,7 +37,7 @@
             <div class="control-group">
                 <label class="control-label" for="email">Email</label>
                 <div class="controls">
-                    <input type="text" class="input-xlarge" th:field="*{email}">
+                    <input type="text" class="input-xlarge" th:field="*{email}" email="true">
                 </div>
             </div>
             <div class="control-group">
@@ -64,18 +63,54 @@
     <script type="text/javascript" th:src="@{/static/zTree_v3/js/jquery.ztree.excheck.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-       $(document).ready(function () {
-           var roleIds=/*[[${roleIds}]]*/;
-           checkRoles(roleIds);
-       });
+        var userId = jQuery("#userId").val();
+
+        $(document).ready(function () {
+            var roleIds =/*[[${roleIds}]]*/;
+            setRolesChecked(roleIds);
+
+            $("#myForm").validate({
+                errorElement: "span",
+                messages: {
+                    username: {
+                        required: "必填",
+                        minlength: "不能少于3个字符",
+                        maxlength: "不能大于20个字符"
+                    },
+                    realName: {
+                        required: "必填"
+                    },
+                    email: {
+                        email: "邮件格式有误"
+                    }
+                }
+            });
+        });
+
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url:/*[[@{/user/save}]]*/,
+                    type: "post",
+                    dataType: "json",
+                    success: function (result) {
+                        if (result != null && result> 0) {
+                            window.location.href =/*[[@{/user/list}]]*/;
+                        } else {
+                            alert("保存失败");
+                        }
+                    }
+                });
+            }
+        });
 
         /*]]>*/
 
-        function checkRoles(roleIds){
-            if(roleIds.length>0){
-                var arr=roleIds.split(",");
-                for(var i=0;i<arr.length;i++){
-                    $("[name='roleIds'][value='"+arr[i]+"']").prop("checked",true);
+        function setRolesChecked(roleIds) {
+            if (roleIds.length > 0) {
+                var arr = roleIds.split(",");
+                for (var i = 0; i < arr.length; i++) {
+                    $("[name='roleIds'][value='" + arr[i] + "']").prop("checked", true);
                 }
             }
         }

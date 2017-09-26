@@ -110,7 +110,7 @@ public class RoleController {
             Set<CmsResource> roleResources = resourceService.findByRoleId(roleId);
             if (roleResources != null && !roleResources.isEmpty()) {
                 for (Map<String, Object> resource : allResources) {
-                    Integer id =(Integer)resource.get("id");
+                    Integer id = (Integer) resource.get("id");
                     for (CmsResource roleResource : roleResources) {
                         if (roleResource.getResourceId().equals(id)) {
                             resource.put("checked", true);
@@ -135,7 +135,7 @@ public class RoleController {
      */
     @RequestMapping("/save")
     @ResponseBody
-    public JsonResult save(CmsRole role,String resourceIds) {
+    public JsonResult save(CmsRole role, String resourceIds) {
         JsonResult jsonResult = new JsonResult() {{
             setReturncode(-1);
             setMessage("保存失败");
@@ -149,15 +149,14 @@ public class RoleController {
         }
 
         //保存角色关联的菜单
-        if(StringUtils.isNotBlank(resourceIds)){
-           String[] array= resourceIds.split(",");
-           List<Integer> listResources=new ArrayList<>();
-           for(String id:array){
-               listResources.add(Integer.parseInt(id));
-           }
-
-           roleService.saveRoleResourceRelation(role.getRoleId(),listResources);
+        List<Integer> listResources = new ArrayList<>();
+        if (StringUtils.isNotBlank(resourceIds)) {
+            String[] array = resourceIds.split(",");
+            for (String id : array) {
+                listResources.add(Integer.parseInt(id));
+            }
         }
+        roleService.saveRoleResourceRelation(role.getRoleId(), listResources);
 
         if (result > 0) {
             jsonResult.setReturncode(0);

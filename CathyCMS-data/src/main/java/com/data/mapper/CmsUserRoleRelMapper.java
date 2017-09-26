@@ -3,6 +3,8 @@ package com.data.mapper;
 import com.data.pojo.CmsUserRoleRelCriteria;
 import com.data.pojo.CmsUserRoleRelKey;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface CmsUserRoleRelMapper {
@@ -45,4 +47,6 @@ public interface CmsUserRoleRelMapper {
      * @mbg.generated
      */
     List<CmsUserRoleRelKey> selectByExample(CmsUserRoleRelCriteria example);
+
+    void deleteByUserId(@Param("userId") Integer userId);
 }
