@@ -25,9 +25,14 @@ public class ChannelController {
 
     @RequestMapping("/list")
     public String list(@RequestParam(name = "parentId",required = false,defaultValue = "0")Integer parentId, Model model){
+        model.addAttribute("parentId",parentId);
+
         List<CmsChannel> channelParents=channelService.findByLevel(ConstantHelper.CHANNEL_LEVEL1);
         model.addAttribute("parents",channelParents);
-        model.addAttribute("parentId",parentId);
+
+        List<CmsChannel> channelChildren=channelService.findByParent(parentId);
+        model.addAttribute("children",channelChildren);
+
         return "/channel/list";
     }
 
@@ -51,5 +56,11 @@ public class ChannelController {
     @ResponseBody
     public int ajaxDelete(int id){
         return channelService.delete(id);
+    }
+
+    @RequestMapping("/ajaxReset")
+    @ResponseBody
+    public int ajaxReset(int id){
+        return channelService.reset(id);
     }
 }

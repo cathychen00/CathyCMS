@@ -12,14 +12,16 @@
             <th:block th:if="${parents.size()==0}">
                 <div class="well blank-slate">
                     <p>尚未设置一级频道</p>
-                    <a name="btnAdd1" href="javascript:void(0);" class="btn btn-primary"><i class="icon-plus icon-white"></i>新增</a>
+                    <a name="btnAdd1" href="javascript:void(0);" class="btn btn-primary"><i
+                            class="icon-plus icon-white"></i>新增</a>
                 </div>
             </th:block>
             <th:block th:if="${parents.size()!=0}">
                 <ul id="channelParents" class="nav nav-pills nav-stacked">
                     <th:block th:each="item:${parents}">
                         <li th:class="${item.id==parentId}?'active':''">
-                            <a th:href="@{/channel/list(parentId=${item.id})}" th:attr="data-id=${item.id},data-order=${item.orderNum}"
+                            <a th:href="@{/channel/list(parentId=${item.id})}"
+                               th:attr="data-id=${item.id},data-order=${item.orderNum}"
                                th:text="${item.channelName}"></a>
                         </li>
                     </th:block>
@@ -34,33 +36,54 @@
             </th:block>
         </div>
         <div class="span7">
-            <table class="table table-bordered">
 
-                <thead>
-                <tr>
-                    <th>名称</th>
-                    <th>城市</th>
-                    <th>邮编</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Tanmay</td>
-                    <td>Bangalore</td>
-                    <td>560001</td>
-                </tr>
-                <tr>
-                    <td>Sachin</td>
-                    <td>Mumbai</td>
-                    <td>400003</td>
-                </tr>
-                <tr>
-                    <td>Uma</td>
-                    <td>Pune</td>
-                    <td>411027</td>
-                </tr>
-                </tbody>
-            </table>
+            <div th:if="${parentId==0}" class="well blank-slate">
+                <p>请选中要管理的一级频道</p>
+            </div>
+
+            <th:block th:if="${parentId>0}">
+                <div th:if="${children==null||children.size()==0}" class="well blank-slate">
+                    <p>尚未设置二级频道</p>
+                </div>
+                <table th:if="${children!=null&&children.size()>0}" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>名称</th>
+                        <th>序号</th>
+                        <th>创建时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="item:${children}">
+                        <tr>
+                            <td th:text="${item.id}"></td>
+                            <td th:text="${item.channelName}"></td>
+                            <td th:text="${item.orderNum}"></td>
+                            <td th:text="${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${item.isDel=='1'}?'删除':'正常'"></td>
+                            <td>
+                                <button type="button" class="btn btn-default" name="btnModify2">修改</button>
+                                <th:block th:switch="${item.isDel}">
+                                    <button th:case="0" type="button" class="btn btn-danger" name="btnDelete2"
+                                            th:attr="data-id=${item.id}">删除
+                                    </button>
+                                    <button th:case="1" type="button" class="btn btn-success" name="btnReset2"
+                                            th:attr="data-id=${item.id}">恢复
+                                    </button>
+
+                                </th:block>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+                <p>
+                    <button type="button" id="btnAdd2" class="btn btn-primary">新增</button>
+                </p>
+            </th:block>
         </div>
     </div>
     <!-- 模态框（Modal） -->
@@ -105,24 +128,30 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $().ready(function () {
-            $("#btnDelete1").click(function () {
-                if(confirm("确定删除该一级频道吗？")) {
-                    var $objItem = $("#channelParents li.active a");
-                    var id = $objItem.attr("data-id");
-                    deleteChannel(id);
-                }
+            $("[name='btnAdd1']").click(function () {
+                initModal(1, 0, 1);
             });
 
-            $("[name='btnAdd1']").click(function () {
-                initModal(1,0,1);
+            $("#btnAdd2").click(function () {
+                var $objItem = $("#channelParents li.active a");
+                var parentId = $objItem.attr("data-id");
+                initModal(2, 0, 1, parentId);
             });
 
             $("#btnModify1").click(function () {
-                var $objItem=$("#channelParents li.active a");
-                var id=$objItem.attr("data-id");
-                var order=$objItem.attr("data-order");
-                var name=$objItem.html();
-               initModal(1,id,order,0,name);
+                var $objItem = $("#channelParents li.active a");
+                var id = $objItem.attr("data-id");
+                var order = $objItem.attr("data-order");
+                var name = $objItem.html();
+                initModal(1, id, order, 0, name);
+            });
+
+            $("[name='btnModify2']").click(function () {
+                var $objTd = $(this).parents("tr").find("td");
+                var id = $objTd.eq(0).html();
+                var name = $objTd.eq(1).html();
+                var order = $objTd.eq(2).html();
+                initModal(1, id, order, 0, name);
             });
 
             $("#btnSave").click(function () {
@@ -132,14 +161,34 @@
             $("#myForm").validate({
                 errorElement: "span",
                 messages: {
-                    range: $.validator.format( "请输入 {0} 和 {1}之间的数值" ),
-                    max: $.validator.format( "数值必须小于或等于{0}." ),
-                    min: $.validator.format( "数值必须大于或等于{0}." ),
-                    required:"必填",
-                    orderNum:{
-                        number:"序号必须为数值类型"
+                    range: $.validator.format("请输入 {0} 和 {1}之间的数值"),
+                    max: $.validator.format("数值必须小于或等于{0}."),
+                    min: $.validator.format("数值必须大于或等于{0}."),
+                    required: "必填",
+                    orderNum: {
+                        number: "序号必须为数值类型"
                     }
                 }
+            });
+
+            $("#btnDelete1").click(function () {
+                if (confirm("确定删除该一级频道吗？")) {
+                    var $objItem = $("#channelParents li.active a");
+                    var id = $objItem.attr("data-id");
+                    deleteChannel(id);
+                }
+            });
+
+            $("[name='btnDelete2']").click(function () {
+                if (confirm("确定删除该二级频道吗？")) {
+                    var id = $(this).attr("data-id");
+                    deleteChannel(id);
+                }
+            });
+
+            $("[name='btnReset2']").click(function () {
+                var id = $(this).attr("data-id");
+                resetChannel(id);
             });
         });
 
@@ -150,9 +199,9 @@
                     type: "post",
                     dataType: "json",
                     success: function (resultId) {
-                        if (resultId != null && resultId> 0) {
-                            var url=/*[[@{/channel/list}]]*/;
-                            window.location.href =url+"?parentId="+resultId;
+                        if (resultId != null && resultId > 0) {
+                            var url =/*[[@{/channel/list}]]*/;
+                            window.location.href = url + "?parentId=" + /*[[${parentId}]]*/;
                         } else {
                             alert("保存失败");
                         }
@@ -162,7 +211,7 @@
         });
 
         //弹出窗口修改一级频道
-        function initModal(level, id, orderNum,parentId,channelName) {
+        function initModal(level, id, orderNum, parentId, channelName) {
             var levelName = "一级频道";
             if (level && level == 2) {
                 levelName = "二级频道";
@@ -175,21 +224,31 @@
             }
 
             $("#level").val(level);
-            $("#id").val(id||0);
-            $("#parentId").val(parentId||0);
+            $("#id").val(id || 0);
+            $("#parentId").val(parentId || 0);
             $("#myModalLabel").html(opType + levelName);
-            $("#channelName").val(channelName||"");
+            $("#channelName").val(channelName || "");
             $("#orderNum").val(orderNum);
 
             $('#myModal').modal('show');
         }
 
-        function deleteChannel(id){
-            $.post(/*[[@{/channel/ajaxDelete}]]*/,{"id":id},function () {
-                if(id&&id>0){
+        function deleteChannel(id) {
+            $.post(/*[[@{/channel/ajaxDelete}]]*/, {"id": id}, function () {
+                if (id && id > 0) {
                     window.location.reload();
-                }else{
+                } else {
                     alert("删除失败");
+                }
+            });
+        }
+
+        function resetChannel(id) {
+            $.post(/*[[@{/channel/ajaxReset}]]*/, {"id": id}, function () {
+                if (id && id > 0) {
+                    window.location.reload();
+                } else {
+                    alert("恢复失败");
                 }
             });
         }

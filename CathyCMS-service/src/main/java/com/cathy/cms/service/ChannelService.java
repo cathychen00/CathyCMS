@@ -17,4 +17,8 @@ public interface ChannelService {
     void update(CmsChannel channel);
 
     int delete(int id);
+
+    List<CmsChannel> findByParent(Integer parentId);
+
+    int reset(int id);
 }

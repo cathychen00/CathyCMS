@@ -40,6 +40,17 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
+    public List<CmsChannel> findByParent(Integer parentId) {
+        if(parentId==null||parentId==0){
+            return null;
+        }
+
+        CmsChannelCriteria criteria=new CmsChannelCriteria();
+        criteria.createCriteria().andParentidEqualTo(parentId);
+        return channelMapper.selectByExample(criteria);
+    }
+
+    @Override
     public void insert(CmsChannel channel) {
         if(channel==null){
             return ;
@@ -81,6 +92,17 @@ public class ChannelServiceImpl implements ChannelService {
 
         channel.setIsDel(ConstantHelper.DELETE_FLAG_DELETED);
 
+        return channelMapper.updateByPrimaryKey(channel);
+    }
+
+    @Override
+    public int reset(int id) {
+        CmsChannel channel=findByChannelId(id);
+        if(channel==null){
+            return -1;
+        }
+
+        channel.setIsDel(ConstantHelper.DELETE_FLAG_NORMAL);
         return channelMapper.updateByPrimaryKey(channel);
     }
 }
