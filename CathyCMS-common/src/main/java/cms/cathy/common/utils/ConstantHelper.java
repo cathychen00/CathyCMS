@@ -16,5 +16,8 @@ public class ConstantHelper {
     public static final String RESOURCE_TYPE_MODULE="module";
     public static final String RESOURCE_TYPE_PAGE="page";
 
+    public static final String CHANNEL_LEVEL1="1";
+    public static final String CHANNEL_LEVEL2="2";
+
     public static final String PASSWORD="123456";
 }

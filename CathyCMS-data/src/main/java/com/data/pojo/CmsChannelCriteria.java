@@ -266,62 +266,62 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andChannelnameEqualTo(String value) {
-            addCriterion("channelName =", value, "channelname");
+            addCriterion("channelName =", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameNotEqualTo(String value) {
-            addCriterion("channelName <>", value, "channelname");
+            addCriterion("channelName <>", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameGreaterThan(String value) {
-            addCriterion("channelName >", value, "channelname");
+            addCriterion("channelName >", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameGreaterThanOrEqualTo(String value) {
-            addCriterion("channelName >=", value, "channelname");
+            addCriterion("channelName >=", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameLessThan(String value) {
-            addCriterion("channelName <", value, "channelname");
+            addCriterion("channelName <", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameLessThanOrEqualTo(String value) {
-            addCriterion("channelName <=", value, "channelname");
+            addCriterion("channelName <=", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameLike(String value) {
-            addCriterion("channelName like", value, "channelname");
+            addCriterion("channelName like", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameNotLike(String value) {
-            addCriterion("channelName not like", value, "channelname");
+            addCriterion("channelName not like", value, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameIn(List<String> values) {
-            addCriterion("channelName in", values, "channelname");
+            addCriterion("channelName in", values, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameNotIn(List<String> values) {
-            addCriterion("channelName not in", values, "channelname");
+            addCriterion("channelName not in", values, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameBetween(String value1, String value2) {
-            addCriterion("channelName between", value1, value2, "channelname");
+            addCriterion("channelName between", value1, value2, "channelName");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameNotBetween(String value1, String value2) {
-            addCriterion("channelName not between", value1, value2, "channelname");
+            addCriterion("channelName not between", value1, value2, "channelName");
             return (Criteria) this;
         }
 
@@ -406,52 +406,52 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andParentidEqualTo(Integer value) {
-            addCriterion("parentId =", value, "parentid");
+            addCriterion("parentId =", value, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidNotEqualTo(Integer value) {
-            addCriterion("parentId <>", value, "parentid");
+            addCriterion("parentId <>", value, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidGreaterThan(Integer value) {
-            addCriterion("parentId >", value, "parentid");
+            addCriterion("parentId >", value, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("parentId >=", value, "parentid");
+            addCriterion("parentId >=", value, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidLessThan(Integer value) {
-            addCriterion("parentId <", value, "parentid");
+            addCriterion("parentId <", value, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidLessThanOrEqualTo(Integer value) {
-            addCriterion("parentId <=", value, "parentid");
+            addCriterion("parentId <=", value, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidIn(List<Integer> values) {
-            addCriterion("parentId in", values, "parentid");
+            addCriterion("parentId in", values, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidNotIn(List<Integer> values) {
-            addCriterion("parentId not in", values, "parentid");
+            addCriterion("parentId not in", values, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidBetween(Integer value1, Integer value2) {
-            addCriterion("parentId between", value1, value2, "parentid");
+            addCriterion("parentId between", value1, value2, "parentId");
             return (Criteria) this;
         }
 
         public Criteria andParentidNotBetween(Integer value1, Integer value2) {
-            addCriterion("parentId not between", value1, value2, "parentid");
+            addCriterion("parentId not between", value1, value2, "parentId");
             return (Criteria) this;
         }
 
@@ -466,52 +466,52 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andOrdernumEqualTo(Integer value) {
-            addCriterion("orderNum =", value, "ordernum");
+            addCriterion("orderNum =", value, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumNotEqualTo(Integer value) {
-            addCriterion("orderNum <>", value, "ordernum");
+            addCriterion("orderNum <>", value, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumGreaterThan(Integer value) {
-            addCriterion("orderNum >", value, "ordernum");
+            addCriterion("orderNum >", value, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("orderNum >=", value, "ordernum");
+            addCriterion("orderNum >=", value, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumLessThan(Integer value) {
-            addCriterion("orderNum <", value, "ordernum");
+            addCriterion("orderNum <", value, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumLessThanOrEqualTo(Integer value) {
-            addCriterion("orderNum <=", value, "ordernum");
+            addCriterion("orderNum <=", value, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumIn(List<Integer> values) {
-            addCriterion("orderNum in", values, "ordernum");
+            addCriterion("orderNum in", values, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumNotIn(List<Integer> values) {
-            addCriterion("orderNum not in", values, "ordernum");
+            addCriterion("orderNum not in", values, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumBetween(Integer value1, Integer value2) {
-            addCriterion("orderNum between", value1, value2, "ordernum");
+            addCriterion("orderNum between", value1, value2, "orderNum");
             return (Criteria) this;
         }
 
         public Criteria andOrdernumNotBetween(Integer value1, Integer value2) {
-            addCriterion("orderNum not between", value1, value2, "ordernum");
+            addCriterion("orderNum not between", value1, value2, "orderNum");
             return (Criteria) this;
         }
 
@@ -596,62 +596,62 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andIsdelEqualTo(String value) {
-            addCriterion("isDel =", value, "isdel");
+            addCriterion("isDel =", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelNotEqualTo(String value) {
-            addCriterion("isDel <>", value, "isdel");
+            addCriterion("isDel <>", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelGreaterThan(String value) {
-            addCriterion("isDel >", value, "isdel");
+            addCriterion("isDel >", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelGreaterThanOrEqualTo(String value) {
-            addCriterion("isDel >=", value, "isdel");
+            addCriterion("isDel >=", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelLessThan(String value) {
-            addCriterion("isDel <", value, "isdel");
+            addCriterion("isDel <", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelLessThanOrEqualTo(String value) {
-            addCriterion("isDel <=", value, "isdel");
+            addCriterion("isDel <=", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelLike(String value) {
-            addCriterion("isDel like", value, "isdel");
+            addCriterion("isDel like", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelNotLike(String value) {
-            addCriterion("isDel not like", value, "isdel");
+            addCriterion("isDel not like", value, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelIn(List<String> values) {
-            addCriterion("isDel in", values, "isdel");
+            addCriterion("isDel in", values, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelNotIn(List<String> values) {
-            addCriterion("isDel not in", values, "isdel");
+            addCriterion("isDel not in", values, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelBetween(String value1, String value2) {
-            addCriterion("isDel between", value1, value2, "isdel");
+            addCriterion("isDel between", value1, value2, "isDel");
             return (Criteria) this;
         }
 
         public Criteria andIsdelNotBetween(String value1, String value2) {
-            addCriterion("isDel not between", value1, value2, "isdel");
+            addCriterion("isDel not between", value1, value2, "isDel");
             return (Criteria) this;
         }
 
@@ -666,52 +666,52 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andCreatetimeEqualTo(Date value) {
-            addCriterion("createTime =", value, "createtime");
+            addCriterion("createTime =", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeNotEqualTo(Date value) {
-            addCriterion("createTime <>", value, "createtime");
+            addCriterion("createTime <>", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeGreaterThan(Date value) {
-            addCriterion("createTime >", value, "createtime");
+            addCriterion("createTime >", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("createTime >=", value, "createtime");
+            addCriterion("createTime >=", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeLessThan(Date value) {
-            addCriterion("createTime <", value, "createtime");
+            addCriterion("createTime <", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeLessThanOrEqualTo(Date value) {
-            addCriterion("createTime <=", value, "createtime");
+            addCriterion("createTime <=", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeIn(List<Date> values) {
-            addCriterion("createTime in", values, "createtime");
+            addCriterion("createTime in", values, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeNotIn(List<Date> values) {
-            addCriterion("createTime not in", values, "createtime");
+            addCriterion("createTime not in", values, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeBetween(Date value1, Date value2) {
-            addCriterion("createTime between", value1, value2, "createtime");
+            addCriterion("createTime between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreatetimeNotBetween(Date value1, Date value2) {
-            addCriterion("createTime not between", value1, value2, "createtime");
+            addCriterion("createTime not between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
@@ -726,57 +726,57 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andUpdatetimeEqualTo(Date value) {
-            addCriterion("updateTime =", value, "updatetime");
+            addCriterion("updateTime =", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeNotEqualTo(Date value) {
-            addCriterion("updateTime <>", value, "updatetime");
+            addCriterion("updateTime <>", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeGreaterThan(Date value) {
-            addCriterion("updateTime >", value, "updatetime");
+            addCriterion("updateTime >", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("updateTime >=", value, "updatetime");
+            addCriterion("updateTime >=", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeLessThan(Date value) {
-            addCriterion("updateTime <", value, "updatetime");
+            addCriterion("updateTime <", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeLessThanOrEqualTo(Date value) {
-            addCriterion("updateTime <=", value, "updatetime");
+            addCriterion("updateTime <=", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeIn(List<Date> values) {
-            addCriterion("updateTime in", values, "updatetime");
+            addCriterion("updateTime in", values, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeNotIn(List<Date> values) {
-            addCriterion("updateTime not in", values, "updatetime");
+            addCriterion("updateTime not in", values, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeBetween(Date value1, Date value2) {
-            addCriterion("updateTime between", value1, value2, "updatetime");
+            addCriterion("updateTime between", value1, value2, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdatetimeNotBetween(Date value1, Date value2) {
-            addCriterion("updateTime not between", value1, value2, "updatetime");
+            addCriterion("updateTime not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andChannelnameLikeInsensitive(String value) {
-            addCriterion("upper(channelName) like", value.toUpperCase(), "channelname");
+            addCriterion("upper(channelName) like", value.toUpperCase(), "channelName");
             return (Criteria) this;
         }
 
@@ -791,7 +791,7 @@ public class CmsChannelCriteria {
         }
 
         public Criteria andIsdelLikeInsensitive(String value) {
-            addCriterion("upper(isDel) like", value.toUpperCase(), "isdel");
+            addCriterion("upper(isDel) like", value.toUpperCase(), "isDel");
             return (Criteria) this;
         }
     }

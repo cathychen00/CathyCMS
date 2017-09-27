@@ -7,22 +7,32 @@
 <body>
 <div layout:fragment="content">
     <div class="row">
-        <h1>aaa</h1><div class="span2">
-
-        <ul class="nav nav-pills nav-stacked">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">SVN</a></li>
-            <li><a href="#">iOS</a></li>
-            <li><a href="#">VB.Net</a></li>
-            <li><a href="#">Java</a></li>
-            <li><a href="#">PHP</a></li>
-        </ul>
-        <p>
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">修改</button>
-            <button type="button" class="btn btn-default">删除</button>
-            <button type="button" class="btn btn-default">新增</button>
-        </p>
-    </div>
+        <h1>频道列表</h1>
+        <div class="span2">
+            <th:block th:if="${parents.size()==0}">
+                <div class="well blank-slate">
+                    <p>尚未设置一级频道</p>
+                    <a name="btnAdd1" href="javascript:void(0);" class="btn btn-primary"><i class="icon-plus icon-white"></i>新增</a>
+                </div>
+            </th:block>
+            <th:block th:if="${parents.size()!=0}">
+                <ul id="channelParents" class="nav nav-pills nav-stacked">
+                    <th:block th:each="item:${parents}">
+                        <li th:class="${item.id==parentId}?'active':''">
+                            <a th:href="@{/channel/list(parentId=${item.id})}" th:attr="data-id=${item.id},data-order=${item.orderNum}"
+                               th:text="${item.channelName}"></a>
+                        </li>
+                    </th:block>
+                </ul>
+                <p>
+                    <th:block th:if="${parentId>0}">
+                        <button type="button" class="btn btn-default" id="btnModify1">修改</button>
+                        <button type="button" class="btn btn-default">删除</button>
+                    </th:block>
+                    <button type="button" name="btnAdd1" class="btn btn-primary">新增</button>
+                </p>
+            </th:block>
+        </div>
         <div class="span7">
             <table class="table table-bordered">
 
@@ -61,72 +71,111 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                         &times;
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        模态框（Modal）标题
-                    </h4>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
                 </div>
                 <div class="modal-body">
-                    在这里添加一些文本
+                    <form id="myForm" class="form-horizontal">
+                        <input type="hidden" id="level" name="level" value="0" required range="[1,2]">
+                        <input type="hidden" id="id" name="id" value="0">
+                        <input type="hidden" id="parentId" name="parentId">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label" for="channelName">频道名称：</label>
+                                <div class="controls">
+                                    <input type="text" id="channelName" name="channelName" required>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="orderNum">频道序号：</label>
+                                <div class="controls">
+                                    <input type="text" id="orderNum" name="orderNum" required number="true" min="1">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                        提交更改
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="btnSave">保存</button>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
+            </div>
+        </div>
     </div>
 </div>
-<!--<th:block layout:fragment="script">-->
-<!--<script th:inline="javascript">-->
-<!--/*<![CDATA[*/-->
-<!--$(document).ready(function () {-->
-<!--$("#btnQuery").click(function () {-->
-<!--submitQuery();-->
-<!--});-->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $().ready(function () {
+            $("[name='btnAdd1']").click(function () {
+                initModal(1,0,1);
+            });
 
-<!--$("#btnExport").click(function () {-->
-<!--var username = $("#username").val();-->
-<!--window.location.href = "/user/export?username=" + username;-->
-<!--})-->
+            $("#btnModify1").click(function () {
+                var $objItem=$("#channelParents li.active a");
+                var id=$objItem.attr("data-id");
+                var order=$objItem.attr("data-order");
+                var name=$objItem.html();
+               initModal(1,id,order,0,name);
+            });
 
-<!--$("[name='btnDelete']").click(function () {-->
-<!--var userId = $(this).attr("data-id");-->
-<!--deleteUser(userId);-->
-<!--});-->
+            $("#btnSave").click(function () {
+                $("#myForm").submit();
+            });
 
-<!--$("[name='btnReset']").click(function () {-->
-<!--var userId = $(this).attr("data-id");-->
-<!--resetUser(userId);-->
-<!--});-->
-<!--});-->
+            $("#myForm").validate({
+                errorElement: "span",
+                messages: {
+                    range: $.validator.format( "请输入 {0} 和 {1}之间的数值" ),
+                    max: $.validator.format( "数值必须小于或等于{0}." ),
+                    min: $.validator.format( "数值必须大于或等于{0}." ),
+                    required:"必填",
+                    orderNum:{
+                        number:"序号必须为数值类型"
+                    }
+                }
+            });
+        });
 
-<!--function submitQuery() {-->
-<!--$("#myform").submit();-->
-<!--}-->
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url:/*[[@{/channel/ajaxSave}]]*/,
+                    type: "post",
+                    dataType: "json",
+                    success: function (resultId) {
+                        if (resultId != null && resultId> 0) {
+                            var url=/*[[@{/channel/list}]]*/;
+                            window.location.href =url+"?parentId="+resultId;
+                        } else {
+                            alert("保存失败");
+                        }
+                    }
+                });
+            }
+        });
 
-<!--function deleteUser(userId) {-->
-<!--if (confirm("确定删除该用户吗?")) {-->
-<!--$.post(/*[[@{/user/ajax/delete}]]*/, {"userId": userId}, function (result) {-->
-<!--if (result != null && result > 0) {-->
-<!--window.location.reload();-->
-<!--}-->
-<!--});-->
-<!--}-->
-<!--}-->
+        //弹出窗口修改一级频道
+        function initModal(level, id, orderNum,parentId,channelName) {
+            var levelName = "一级频道";
+            if (level && level == 2) {
+                levelName = "二级频道";
+            }
+            var opType;
+            if (id) {
+                opType = "修改";
+            } else {
+                opType = "新增";
+            }
 
-<!--function resetUser(userId) {-->
-<!--$.post(/*[[@{/user/ajax/reset}]]*/, {"userId": userId}, function (result) {-->
-<!--if (result != null && result > 0) {-->
-<!--window.location.reload();-->
-<!--}-->
-<!--});-->
-<!--}-->
+            $("#level").val(level);
+            $("#id").val(id||0);
+            $("#parentId").val(parentId||0);
+            $("#myModalLabel").html(opType + levelName);
+            $("#channelName").val(channelName||"");
+            $("#orderNum").val(orderNum);
 
-<!--/*]]>*/-->
-<!--</script>-->
-<!--</th:block>-->
+            $('#myModal').modal('show');
+        }
+    </script>
+</th:block>
 </body>
 </html>
