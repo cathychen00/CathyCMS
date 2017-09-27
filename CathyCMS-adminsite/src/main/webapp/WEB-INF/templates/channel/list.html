@@ -27,7 +27,7 @@
                 <p>
                     <th:block th:if="${parentId>0}">
                         <button type="button" class="btn btn-default" id="btnModify1">修改</button>
-                        <button type="button" class="btn btn-default">删除</button>
+                        <button type="button" class="btn btn-default" id="btnDelete1">删除</button>
                     </th:block>
                     <button type="button" name="btnAdd1" class="btn btn-primary">新增</button>
                 </p>
@@ -105,6 +105,14 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $().ready(function () {
+            $("#btnDelete1").click(function () {
+                if(confirm("确定删除该一级频道吗？")) {
+                    var $objItem = $("#channelParents li.active a");
+                    var id = $objItem.attr("data-id");
+                    deleteChannel(id);
+                }
+            });
+
             $("[name='btnAdd1']").click(function () {
                 initModal(1,0,1);
             });
@@ -174,6 +182,16 @@
             $("#orderNum").val(orderNum);
 
             $('#myModal').modal('show');
+        }
+
+        function deleteChannel(id){
+            $.post(/*[[@{/channel/ajaxDelete}]]*/,{"id":id},function () {
+                if(id&&id>0){
+                    window.location.reload();
+                }else{
+                    alert("删除失败");
+                }
+            });
         }
     </script>
 </th:block>

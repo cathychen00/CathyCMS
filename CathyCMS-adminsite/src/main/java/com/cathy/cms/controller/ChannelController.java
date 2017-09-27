@@ -46,4 +46,10 @@ public class ChannelController {
 
         return channel.getId();
     }
+
+    @RequestMapping("/ajaxDelete")
+    @ResponseBody
+    public int ajaxDelete(int id){
+        return channelService.delete(id);
+    }
 }

@@ -71,4 +71,16 @@ public class ChannelServiceImpl implements ChannelService {
 
         channelMapper.updateByPrimaryKey(updateChannel);
     }
+
+    @Override
+    public int delete(int id) {
+        CmsChannel channel=findByChannelId(id);
+        if(channel==null){
+            return -1;
+        }
+
+        channel.setIsDel(ConstantHelper.DELETE_FLAG_DELETED);
+
+        return channelMapper.updateByPrimaryKey(channel);
+    }
 }

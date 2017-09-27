@@ -15,4 +15,6 @@ public interface ChannelService {
     void insert(CmsChannel channel);
 
     void update(CmsChannel channel);
+
+    int delete(int id);
 }
