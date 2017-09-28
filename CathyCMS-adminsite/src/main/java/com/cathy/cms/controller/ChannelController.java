@@ -63,4 +63,11 @@ public class ChannelController {
     public int ajaxReset(int id){
         return channelService.reset(id);
     }
+
+    @RequestMapping("/ajaxListByParent")
+    @ResponseBody
+    public List<CmsChannel> ajaxListByParent(Integer parentId){
+        List<CmsChannel> channels=channelService.findByParent(parentId);
+        return channels;
+    }
 }

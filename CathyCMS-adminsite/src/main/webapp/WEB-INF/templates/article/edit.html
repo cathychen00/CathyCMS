@@ -26,7 +26,18 @@
             <div class="control-group">
                 <label class="control-label" for="channel2">频道：</label>
                 <div class="controls">
-下拉
+                    <select th:field="*{channel1}">
+                        <option value="-1">--一级频道--</option>
+                        <th:block th:each="c:${channels1}">
+                            <option th:value="${c.id}" th:text="${c.channelName}"></option>
+                        </th:block>
+                    </select>
+                    <select th:field="*{channel2}">
+                        <option value="-1">--二级频道--</option>
+                        <th:block th:each="c:${channels2}">
+                            <option th:value="${c.id}" th:text="${c.channelName}"></option>
+                        </th:block>
+                    </select>
                 </div>
             </div>
             <div class="control-group">
@@ -54,9 +65,31 @@
         </fieldset>
     </form>
 </div>
-<!--<th:block layout:fragment="script">-->
-<!--<script th:inline="javascript">-->
-<!--/*<![CDATA[*/-->
+<th:block layout:fragment="script">
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function(){
+    $("#channel1").change(function(){
+        var channel1=$(this).val();
+        loadChannel2(channel1);
+    });
+});
+
+function loadChannel2(channel1){
+    $("#channel2 option:gt(0)").remove();
+
+    $.getJSON(/*[[@{/channel/ajaxListByParent}]]*/,{"parentId":channel1},function (result) {
+       if(result&&result.length>0){
+           $.each(result,function (index,channel) {
+               var $objOption=$("<option>");
+               $objOption.attr("value",channel.id).html(channel.channelName);
+               $("#channel2").append($objOption);
+           });
+       }
+    });
+}
+
+
 <!--var userId = jQuery("#userId").val();-->
 
 <!--$(document).ready(function () {-->
@@ -98,17 +131,9 @@
 <!--}-->
 <!--});-->
 
-<!--/*]]>*/-->
+/*]]>*/
 
-<!--function setRolesChecked(roleIds) {-->
-<!--if (roleIds.length > 0) {-->
-<!--var arr = roleIds.split(",");-->
-<!--for (var i = 0; i < arr.length; i++) {-->
-<!--$("[name='roleIds'][value='" + arr[i] + "']").prop("checked", true);-->
-<!--}-->
-<!--}-->
-<!--}-->
-<!--</script>-->
-<!--</th:block>-->
+</script>
+</th:block>
 </body>
 </html>
