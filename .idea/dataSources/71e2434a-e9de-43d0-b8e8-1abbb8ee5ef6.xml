@@ -13,7 +13,7 @@
     <schema id="7" parent="1" name="store"/>
     <schema id="8" parent="1" name="sys"/>
     <schema id="9" parent="1" name="tianti_stage"/>
-    <table id="10" parent="2" name="cms_article"/>
+    <table id="10" parent="2" name="cms_articles"/>
     <table id="11" parent="2" name="cms_channel"/>
     <table id="12" parent="2" name="cms_resource"/>
     <table id="13" parent="2" name="cms_role"/>

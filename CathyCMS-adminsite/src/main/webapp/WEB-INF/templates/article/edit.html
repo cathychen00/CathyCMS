@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorator="task/layout">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${pageTitle}"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 th:text="${pageTitle}"></h1>
+    <form id="myForm" class="form-horizontal" th:object="${article}">
+        <input type="hidden" th:field="*{id}">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="title">标题</label>
+                <div class="controls">
+                    <input type="text" class="input-xlarge" th:field="*{title}"
+                           required minlength="5" maxlength="30">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="summary">摘要</label>
+                <div class="controls">
+                    <textarea class="input-xlarge" th:field="*{summary}" required></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="channel2">频道：</label>
+                <div class="controls">
+下拉
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="content">正文</label>
+                <div class="controls">
+                    <textarea class="input-xlarge" th:field="*{content}"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="coverImage">代表图</label>
+                <div class="controls">
+                    <input type="text" th:field="*{coverImage}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="publishTime">发布时间</label>
+                <div class="controls">
+                    <input type="text" th:field="*{publishTime}">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">保存</button>
+                <a class="btn" th:href="@{/article/list}">返回列表</a>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<!--<th:block layout:fragment="script">-->
+<!--<script th:inline="javascript">-->
+<!--/*<![CDATA[*/-->
+<!--var userId = jQuery("#userId").val();-->
+
+<!--$(document).ready(function () {-->
+<!--var roleIds =/*[[${roleIds}]]*/;-->
+<!--setRolesChecked(roleIds);-->
+
+<!--$("#myForm").validate({-->
+<!--errorElement: "span",-->
+<!--messages: {-->
+<!--username: {-->
+<!--required: "必填",-->
+<!--minlength: "不能少于3个字符",-->
+<!--maxlength: "不能大于20个字符"-->
+<!--},-->
+<!--realName: {-->
+<!--required: "必填"-->
+<!--},-->
+<!--email: {-->
+<!--email: "邮件格式有误"-->
+<!--}-->
+<!--}-->
+<!--});-->
+<!--});-->
+
+<!--$.validator.setDefaults({-->
+<!--submitHandler: function (form) {-->
+<!--$(form).ajaxSubmit({-->
+<!--url:/*[[@{/user/ajax/save}]]*/,-->
+<!--type: "post",-->
+<!--dataType: "json",-->
+<!--success: function (result) {-->
+<!--if (result != null && result> 0) {-->
+<!--window.location.href =/*[[@{/user/list}]]*/;-->
+<!--} else {-->
+<!--alert("保存失败");-->
+<!--}-->
+<!--}-->
+<!--});-->
+<!--}-->
+<!--});-->
+
+<!--/*]]>*/-->
+
+<!--function setRolesChecked(roleIds) {-->
+<!--if (roleIds.length > 0) {-->
+<!--var arr = roleIds.split(",");-->
+<!--for (var i = 0; i < arr.length; i++) {-->
+<!--$("[name='roleIds'][value='" + arr[i] + "']").prop("checked", true);-->
+<!--}-->
+<!--}-->
+<!--}-->
+<!--</script>-->
+<!--</th:block>-->
+</body>
+</html>

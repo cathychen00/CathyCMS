@@ -42,7 +42,7 @@
         </commentGenerator>
 
         <!--jdbc的数据库连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/cathycms"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/cathycms"
                         userId="root" password="root"/>
 
         <javaTypeResolver>
@@ -70,7 +70,7 @@
 
         <!--&lt;!&ndash;要根据哪张表生成，要在这里配置&ndash;&gt;-->
         <!--&lt;!&ndash;用百分号表示生成所有表,可以直接省去一个一个写 <table tableName="%" /> &ndash;&gt;-->
-        <table tableName="cms_article" enableInsert="true" enableUpdateByPrimaryKey="true" enableCountByExample="true" enableDeleteByExample="false" enableDeleteByPrimaryKey="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="false">
+        <table tableName="cms_articles" enableInsert="true" enableUpdateByPrimaryKey="true" enableCountByExample="true" enableDeleteByExample="false" enableDeleteByPrimaryKey="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="false">
         </table>
     </context>
 </generatorConfiguration>
