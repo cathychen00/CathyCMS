@@ -70,7 +70,7 @@
 
         <!--&lt;!&ndash;要根据哪张表生成，要在这里配置&ndash;&gt;-->
         <!--&lt;!&ndash;用百分号表示生成所有表,可以直接省去一个一个写 <table tableName="%" /> &ndash;&gt;-->
-        <table tableName="%" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="true" enableUpdateByExample="false"  enableDeleteByPrimaryKey="true" enableSelectByPrimaryKey="true" enableInsert="true" >
+        <table tableName="cms_article" enableInsert="true" enableUpdateByPrimaryKey="true" enableCountByExample="true" enableDeleteByExample="false" enableDeleteByPrimaryKey="true" enableSelectByExample="true" enableSelectByPrimaryKey="true" enableUpdateByExample="false">
         </table>
     </context>
 </generatorConfiguration>
