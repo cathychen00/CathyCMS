@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title th:text="${pageTitle}"></title>
+    <link rel="stylesheet" th:href="@{/static/uploadify/uploadify.css}">
 </head>
 <body>
 <div layout:fragment="content">
@@ -49,13 +50,16 @@
             <div class="control-group">
                 <label class="control-label" for="coverImage">代表图</label>
                 <div class="controls">
-                    <input type="text" th:field="*{coverImage}">
+                    <input type="hidden" th:field="*{coverImage}">
+                    <input class="input-file" id="fileInput" type="file">
+                    <img id="previewCoverImage" src="#">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="publishTime">发布时间</label>
                 <div class="controls">
-                    <input type="text" th:field="*{publishTime}" onclick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                    <input type="text" th:field="*{publishTime}"
+                           onclick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})">
                 </div>
             </div>
             <div class="form-actions">
@@ -66,74 +70,94 @@
     </form>
 </div>
 <th:block layout:fragment="script">
-<script th:inline="javascript">
-/*<![CDATA[*/
-$(document).ready(function(){
-    $("#channel1").change(function(){
-        var channel1=$(this).val();
-        loadChannel2(channel1);
-    });
-});
+    <script type="text/javascript" th:src="@{/static/uploadify/jquery.uploadify.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function () {
+            $("#channel1").change(function () {
+                var channel1 = $(this).val();
+                loadChannel2(channel1);
+            });
 
-function loadChannel2(channel1){
-    $("#channel2 option:gt(0)").remove();
+            $("#fileInput").uploadify(
+                {
+                    'swf': /*[[@{/static/uploadify/uploadify.swf}]]*/,
+                    'uploader': /*[[@{/upload/uploadCoverImage}]]*/, //后台action地址
+                    'queueID': 'fileQueue',
+                    'auto': true,
+                    'multi': false,
+                    'buttonText': '上传图片',
+                    'fileObjName': 'pic', //对应action中的参数字段名称
+                    'width': 70,
+                    'height': 20,
+                    'onUploadSuccess': function (file, data, response) {
+                        if (data != null) {
+                            $("#coverImage").val(data); //赋值给hidden控件，便于提交form表单
+                            $("#previewCoverImage").attr("src",data); //复制给img控件用来预览
+                        }
+                    }
+                });
+        });
 
-    $.getJSON(/*[[@{/channel/ajaxListByParent}]]*/,{"parentId":channel1},function (result) {
-       if(result&&result.length>0){
-           $.each(result,function (index,channel) {
-               var $objOption=$("<option>");
-               $objOption.attr("value",channel.id).html(channel.channelName);
-               $("#channel2").append($objOption);
-           });
-       }
-    });
-}
+        function loadChannel2(channel1) {
+            $("#channel2 option:gt(0)").remove();
+
+            $.getJSON(/*[[@{/channel/ajaxListByParent}]]*/, {"parentId": channel1}, function (result) {
+                if (result && result.length > 0) {
+                    $.each(result, function (index, channel) {
+                        var $objOption = $("<option>");
+                        $objOption.attr("value", channel.id).html(channel.channelName);
+                        $("#channel2").append($objOption);
+                    });
+                }
+            });
+        }
 
 
-<!--var userId = jQuery("#userId").val();-->
+        <!--var userId = jQuery("#userId").val();-->
 
-<!--$(document).ready(function () {-->
-<!--var roleIds =/*[[${roleIds}]]*/;-->
-<!--setRolesChecked(roleIds);-->
+        <!--$(document).ready(function () {-->
+        <!--var roleIds =/*[[${roleIds}]]*/;-->
+        <!--setRolesChecked(roleIds);-->
 
-<!--$("#myForm").validate({-->
-<!--errorElement: "span",-->
-<!--messages: {-->
-<!--username: {-->
-<!--required: "必填",-->
-<!--minlength: "不能少于3个字符",-->
-<!--maxlength: "不能大于20个字符"-->
-<!--},-->
-<!--realName: {-->
-<!--required: "必填"-->
-<!--},-->
-<!--email: {-->
-<!--email: "邮件格式有误"-->
-<!--}-->
-<!--}-->
-<!--});-->
-<!--});-->
+        <!--$("#myForm").validate({-->
+        <!--errorElement: "span",-->
+        <!--messages: {-->
+        <!--username: {-->
+        <!--required: "必填",-->
+        <!--minlength: "不能少于3个字符",-->
+        <!--maxlength: "不能大于20个字符"-->
+        <!--},-->
+        <!--realName: {-->
+        <!--required: "必填"-->
+        <!--},-->
+        <!--email: {-->
+        <!--email: "邮件格式有误"-->
+        <!--}-->
+        <!--}-->
+        <!--});-->
+        <!--});-->
 
-<!--$.validator.setDefaults({-->
-<!--submitHandler: function (form) {-->
-<!--$(form).ajaxSubmit({-->
-<!--url:/*[[@{/user/ajax/save}]]*/,-->
-<!--type: "post",-->
-<!--dataType: "json",-->
-<!--success: function (result) {-->
-<!--if (result != null && result> 0) {-->
-<!--window.location.href =/*[[@{/user/list}]]*/;-->
-<!--} else {-->
-<!--alert("保存失败");-->
-<!--}-->
-<!--}-->
-<!--});-->
-<!--}-->
-<!--});-->
+        <!--$.validator.setDefaults({-->
+        <!--submitHandler: function (form) {-->
+        <!--$(form).ajaxSubmit({-->
+        <!--url:/*[[@{/user/ajax/save}]]*/,-->
+        <!--type: "post",-->
+        <!--dataType: "json",-->
+        <!--success: function (result) {-->
+        <!--if (result != null && result> 0) {-->
+        <!--window.location.href =/*[[@{/user/list}]]*/;-->
+        <!--} else {-->
+        <!--alert("保存失败");-->
+        <!--}-->
+        <!--}-->
+        <!--});-->
+        <!--}-->
+        <!--});-->
 
-/*]]>*/
+        /*]]>*/
 
-</script>
+    </script>
 </th:block>
 </body>
 </html>

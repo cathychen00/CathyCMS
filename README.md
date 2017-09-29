@@ -20,14 +20,16 @@
 - ……
 
 ## 2.技术点
-- 数据层采用 mybatis+mysql
+- 数据层采用 mybatis + mysql
 - 站点采用 spring mvc
 - 视图采用 thymeleaf
-- bootstrap布局
-- 表单校验采用jquery validation插件
-- ztree展现菜单树形结构
+- bootstrap 布局
+- 表单校验采用 jquery validation 插件
+- ztree 展现菜单树形结构
 - 登录和权限控制集成了 shiro
-- 使用POI导出excel
+- 使用 POI 导出excel
+- 时间控件采用 My97DatePicker
+- 文件上传使用 jquery.uploadify
 - ……
 
 
@@ -37,6 +39,7 @@
 - [shiro入门示例](http://www.cnblogs.com/janes/p/7553198.html)
 - [使用ztree展示树形菜单结构](http://www.cnblogs.com/janes/p/7567300.html)
 - [JAVA POI导出excel](http://www.cnblogs.com/janes/p/7596637.html)
+- [jquery.uploadify+spring mvc实现上传图片](http://www.cnblogs.com/janes/p/7611980.html)
 - ……
 
 # 四、声明

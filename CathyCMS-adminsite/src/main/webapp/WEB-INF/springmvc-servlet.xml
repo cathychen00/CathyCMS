@@ -46,9 +46,6 @@
         <property name="characterEncoding" value="UTF-8"></property>
     </bean>
 
-    <!--&lt;!&ndash;View Resolver&ndash;&gt;-->
-    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-        <!--<property name="prefix" value="/WEB-INF/jsp/"/>-->
-        <!--<property name="suffix" value=".jsp"/>-->
-    <!--</bean>-->
+    <!-- 支持上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 </beans>
