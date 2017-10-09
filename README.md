@@ -30,6 +30,7 @@
 - 使用 POI 导出excel
 - 时间控件采用 My97DatePicker
 - 文件上传使用 jquery.uploadify
+- 编辑器采用 百度编辑器ueditor
 - ……
 
 

@@ -54,4 +54,10 @@ public class FileUtils {
             }
         }
     }
+
+    public static String getExt(String name){
+        if(name == null || "".equals(name) || !name.contains("."))
+            return "";
+        return name.substring(name.lastIndexOf(".")+1);
+    }
 }

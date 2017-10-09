@@ -84,6 +84,20 @@
             <version>2.2.2</version>
         </dependency>
         <!--thymeleaf end-->
+        <!--<dependency>-->
+            <!--<groupId>ueditor</groupId>-->
+            <!--<artifactId>ueditor</artifactId>-->
+            <!--<version>1.1.2</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/lib/ueditor-1.1.2.jar</systemPath>-->
+        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/cn.songxinqiang/com.baidu.ueditor -->
+        <dependency>
+            <groupId>cn.songxinqiang</groupId>
+            <artifactId>com.baidu.ueditor</artifactId>
+            <version>1.1.2-offical</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>CathyCMS-adminsite</finalName>
