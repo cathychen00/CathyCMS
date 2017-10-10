@@ -1,5 +1,7 @@
 package com.data.pojo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -56,6 +58,7 @@ public class CmsArticles implements Serializable {
      *
      * @mbg.generated
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date publishTime;
 
     /**

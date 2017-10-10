@@ -44,7 +44,7 @@
             <div class="control-group">
                 <label class="control-label" for="content">正文</label>
                 <div class="controls">
-                    <script type="text/plain" id="content" name="content"></script>
+                    <script type="text/plain" id="content" name="content" th:utext="${article.content}"></script>
                 </div>
             </div>
             <div class="control-group">
@@ -52,14 +52,14 @@
                 <div class="controls">
                     <input type="hidden" th:field="*{coverImage}">
                     <input class="input-file" id="fileInput" type="file">
-                    <img id="previewCoverImage" src="#">
+                    <img id="previewCoverImage" th:src="${article.coverImage}">
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="publishTime">发布时间</label>
                 <div class="controls">
                     <input type="text" th:field="*{publishTime}"
-                           onclick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                           onclick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" required>
                 </div>
             </div>
             <div class="form-actions">
@@ -113,47 +113,37 @@
             });
         }
 
+        $(document).ready(function () {
+            $("#myForm").validate({
+                errorElement: "span",
+                messages: {
+                    required: "必填",
+                    maxlength: $.validator.format("长度必须小于或等于{0}."),
+                    minlength: $.validator.format("长度必须大于或等于{0}."),
+                }
+            });
+        });
 
-        <!--var userId = jQuery("#userId").val();-->
-
-        <!--$(document).ready(function () {-->
-        <!--var roleIds =/*[[${roleIds}]]*/;-->
-        <!--setRolesChecked(roleIds);-->
-
-        <!--$("#myForm").validate({-->
-        <!--errorElement: "span",-->
-        <!--messages: {-->
-        <!--username: {-->
-        <!--required: "必填",-->
-        <!--minlength: "不能少于3个字符",-->
-        <!--maxlength: "不能大于20个字符"-->
-        <!--},-->
-        <!--realName: {-->
-        <!--required: "必填"-->
-        <!--},-->
-        <!--email: {-->
-        <!--email: "邮件格式有误"-->
-        <!--}-->
-        <!--}-->
-        <!--});-->
-        <!--});-->
-
-        <!--$.validator.setDefaults({-->
-        <!--submitHandler: function (form) {-->
-        <!--$(form).ajaxSubmit({-->
-        <!--url:/*[[@{/user/ajax/save}]]*/,-->
-        <!--type: "post",-->
-        <!--dataType: "json",-->
-        <!--success: function (result) {-->
-        <!--if (result != null && result> 0) {-->
-        <!--window.location.href =/*[[@{/user/list}]]*/;-->
-        <!--} else {-->
-        <!--alert("保存失败");-->
-        <!--}-->
-        <!--}-->
-        <!--});-->
-        <!--}-->
-        <!--});-->
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    url:/*[[@{/article/ajaxSave}]]*/,
+                    type: "post",
+                    dataType: "json",
+                    success: function (json) {
+                        if (json != null && json.returncode== 0) {
+                            window.location.href =/*[[@{/article/list}]]*/;
+                        } else {
+                            var msg="保存失败";
+                            if(result!=null){
+                                msg=result.message;
+                            }
+                            alert(msg);
+                        }
+                    }
+                });
+            }
+        });
 
         /*]]>*/
 
