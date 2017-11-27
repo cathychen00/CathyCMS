@@ -1,6 +1,7 @@
 package com.cathy.cms.controller;
 
 import cms.cathy.common.utils.ConstantHelper;
+import com.cathy.cms.dto.ArticleQueryDTO;
 import com.cathy.cms.service.ArticleService;
 import com.cathy.cms.service.ChannelService;
 import com.cathy.cms.utils.WebHelper;
@@ -81,6 +82,13 @@ public class ArticleController {
         jsonResult.setResult(article.getId());
 
         return jsonResult;
+    }
+
+    @RequestMapping("/list")
+    public String list(ArticleQueryDTO queryDto,Model model){
+        model.addAttribute("pageTitle","文章列表");
+        model.addAttribute("queryDto",queryDto);
+        return "/article/list";
     }
 
     private JsonResult validateArticle(CmsArticles article) {

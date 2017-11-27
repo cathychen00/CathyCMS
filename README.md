@@ -15,18 +15,18 @@
 - 菜单列表（完成）
 - 角色列表（完成）
 - 用户列表（完成）
-- 频道列表 (完成)
+- 频道列表（完成）
 - 文章列表 （开发中）
 - ……
 
 ## 2.技术点
+- 登录和权限控制集成了 shiro
 - 数据层采用 mybatis + mysql
 - 站点采用 spring mvc
 - 视图采用 thymeleaf
 - bootstrap 布局
 - 表单校验采用 jquery validation 插件
 - ztree 展现菜单树形结构
-- 登录和权限控制集成了 shiro
 - 使用 POI 导出excel
 - 时间控件采用 My97DatePicker
 - 文件上传使用 jquery.uploadify
