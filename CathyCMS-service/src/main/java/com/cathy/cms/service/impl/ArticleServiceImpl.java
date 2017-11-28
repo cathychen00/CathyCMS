@@ -2,15 +2,23 @@ package com.cathy.cms.service.impl;
 
 import cms.cathy.common.utils.DateUtils;
 import com.cathy.cms.dto.ArticleQueryDTO;
+import com.cathy.cms.dto.ArticleWrapper;
 import com.cathy.cms.service.ArticleService;
+import com.cathy.cms.service.ChannelService;
 import com.cathy.common.models.PageModel;
 import com.data.mapper.CmsArticlesMapper;
+import com.data.mapper.CmsChannelMapper;
 import com.data.pojo.CmsArticles;
 import com.data.pojo.CmsArticlesCriteria;
+import com.data.pojo.CmsChannel;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.ref.WeakReference;
+import java.nio.channels.Channel;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,10 +29,12 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
     @Autowired
     CmsArticlesMapper articlesMapper;
+    @Autowired
+    ChannelService channelService;
 
     @Override
     public void insert(CmsArticles article) {
-        Date currentTime=new Date();
+        Date currentTime = new Date();
         article.setCreateTime(currentTime);
         article.setUpdateTime(currentTime);
         article.setIsAudit(false);
@@ -38,8 +48,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void update(CmsArticles article) {
-        CmsArticles updateArticle=findById(article.getId());
-        if(updateArticle==null){
+        CmsArticles updateArticle = findById(article.getId());
+        if (updateArticle == null) {
             return;
         }
 
@@ -60,11 +70,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public CmsArticles findById(Integer id) {
-        CmsArticlesCriteria criteria=new CmsArticlesCriteria();
+        CmsArticlesCriteria criteria = new CmsArticlesCriteria();
         criteria.createCriteria().andIdEqualTo(id);
 
-        List<CmsArticles> list=articlesMapper.selectByExample(criteria);
-        if(list==null||list.isEmpty()){
+        List<CmsArticles> list = articlesMapper.selectByExample(criteria);
+        if (list == null || list.isEmpty()) {
             return null;
         }
 
@@ -72,40 +82,86 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageModel<CmsArticles> findArticlesPaging(ArticleQueryDTO queryDTO) {
+    public PageModel<ArticleWrapper> findArticlesPaging(ArticleQueryDTO queryDTO) {
 
-        PageModel<CmsArticles> pageModel=new PageModel<CmsArticles>();
-        pageModel.setPageIndex(queryDTO.getPageIndex());
-        pageModel.setPageSize(queryDTO.getPageSize());
+        PageModel<ArticleWrapper> pageModelResult = new PageModel<ArticleWrapper>();
+        pageModelResult.setPageIndex(queryDTO.getPageIndex());
+        pageModelResult.setPageSize(queryDTO.getPageSize());
 
-        CmsArticlesCriteria criteria=new CmsArticlesCriteria();
-        if(queryDTO!=null){
-            criteria.or()
-                    .andIsAuditEqualTo(queryDTO.getAudit())
-                    .andIsDeleteEqualTo(queryDTO.getDelete())
-                    .andIsTopEqualTo(queryDTO.getTop())
-                    .andChannel1EqualTo(queryDTO.getChannel1())
-                    .andChannel2EqualTo(queryDTO.getChannel2())
-                    .andPublisherLike(queryDTO.getPublisher())
-                    .andAdminIdEqualTo(queryDTO.getAdminId())
-                    .andTitleLike(queryDTO.getTitle());
+        //set total count
+        int totalCount=count(queryDTO);
+        pageModelResult.setTotalCount(totalCount);
 
-            if(queryDTO.getPublishTimeStart()!=null){
-                Date publishTimeStart= DateUtils.getStartDate(queryDTO.getPublishTimeStart());
+        CmsArticlesCriteria criteria = buildCritia(queryDTO);
+        RowBounds rowBounds = new RowBounds((queryDTO.getPageIndex() - 1) * queryDTO.getPageSize(), queryDTO.getPageSize());
+        List<CmsArticles> articles = articlesMapper.selectByExampleWithRowbounds(criteria, rowBounds);
+
+        List<ArticleWrapper> articleWrappers=new ArrayList<ArticleWrapper>();
+        if(articles!=null){
+            for(CmsArticles article:articles){
+                ArticleWrapper wrapper=new ArticleWrapper();
+                wrapper.setId(article.getId());
+                wrapper.setArticleInfo(article);
+
+                //fill channel
+                if(article.getChannel1()!=null&&article.getChannel1()>0){
+                    CmsChannel channel1=channelService.findByChannelId(article.getChannel1());
+                    wrapper.setChannel1(channel1);
+
+                    if(article.getChannel2()!=null&&article.getChannel2()>0){
+                        CmsChannel channel2=channelService.findByChannelId(article.getChannel2());
+                        wrapper.setChannel2(channel2);
+                    }
+                }
+
+                articleWrappers.add(wrapper);
+            }
+        }
+        //set items
+        pageModelResult.setItems(articleWrappers);
+
+        return pageModelResult;
+    }
+
+    @Override
+    public int count(ArticleQueryDTO queryDto) {
+        CmsArticlesCriteria criteria = buildCritia(queryDto);
+        return articlesMapper.countByExample(criteria);
+    }
+
+    private CmsArticlesCriteria buildCritia(ArticleQueryDTO queryDto) {
+        CmsArticlesCriteria criteria = new CmsArticlesCriteria();
+        if (queryDto != null) {
+            if (queryDto.getChannel1() != null&&queryDto.getChannel1()>0) {
+                criteria.or().andChannel1EqualTo(queryDto.getChannel1());
+                if (queryDto.getChannel2() != null&&queryDto.getChannel2()>0) {
+                    criteria.or().andChannel2EqualTo(queryDto.getChannel2());
+                }
+            }
+            if (queryDto.getAudit() != null) {
+                criteria.or().andIsAuditEqualTo(queryDto.getAudit());
+            }
+            if (queryDto.getDelete() != null) {
+                criteria.or().andIsDeleteEqualTo(queryDto.getDelete());
+            }
+            if (queryDto.getTop() != null) {
+                criteria.or().andIsTopEqualTo(queryDto.getTop());
+            }
+            if (StringUtils.isNotBlank(queryDto.getPublisher())) {
+                criteria.or().andPublisherLike(queryDto.getPublisher());
+            }
+            if (StringUtils.isNotBlank(queryDto.getTitle())) {
+                criteria.or().andTitleLike(queryDto.getTitle());
+            }
+            if (StringUtils.isNotBlank(queryDto.getPublishTimeStart())) {
+                Date publishTimeStart = DateUtils.getStartDate(queryDto.getPublishTimeStart());
                 criteria.or().andPublishTimeGreaterThan(publishTimeStart);
             }
-
-            if(queryDTO.getPublishTimeEnd()!=null){
-                Date publishTimeEnd=DateUtils.getEndDate(queryDTO.getPublishTimeEnd());
+            if (StringUtils.isNotBlank(queryDto.getPublishTimeEnd())) {
+                Date publishTimeEnd = DateUtils.getEndDate(queryDto.getPublishTimeEnd());
                 criteria.or().andPublishTimeLessThan(publishTimeEnd);
             }
         }
-
-        RowBounds rowBounds=new RowBounds((queryDTO.getPageIndex()-1)*queryDTO.getPageSize(),queryDTO.getPageSize());
-        List<CmsArticles> articles=articlesMapper.selectByExampleWithRowbounds(criteria,rowBounds);
-        pageModel.setItems(articles);
-
-        return pageModel;
+        return criteria;
     }
-
 }

@@ -12,10 +12,9 @@ public class ArticleQueryDTO {
     private String publishTimeStart;
     private String publishTimeEnd;
     private String publisher;
-    private Integer adminId;
     private String title;
-    private Integer pageSize;
-    private Integer pageIndex;
+    private Integer pageSize=20;
+    private Integer pageIndex=1;
 
     public Integer getPageSize() {
         return pageSize;
@@ -95,14 +94,6 @@ public class ArticleQueryDTO {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
     }
 
     public String getTitle() {

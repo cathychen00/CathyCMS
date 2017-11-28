@@ -1,6 +1,7 @@
 package com.cathy.cms.service;
 
 import com.cathy.cms.dto.ArticleQueryDTO;
+import com.cathy.cms.dto.ArticleWrapper;
 import com.cathy.common.models.PageModel;
 import com.data.pojo.CmsArticles;
 
@@ -14,5 +15,9 @@ public interface ArticleService {
 
     CmsArticles findById(Integer id);
 
-    PageModel<CmsArticles> findArticlesPaging(ArticleQueryDTO queryDTO);
+//    PageModel<CmsArticles> findArticlesPaging(ArticleQueryDTO queryDTO);
+
+    PageModel<ArticleWrapper> findArticlesPaging(ArticleQueryDTO queryDTO);
+
+    int count(ArticleQueryDTO queryDto);
 }

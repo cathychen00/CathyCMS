@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorator="task/layout">
+<html lang="en" layout:decorator="task/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title th:text="${pageTitle}"></title>
@@ -7,197 +8,137 @@
 <body>
 <div layout:fragment="content">
     <h1 th:text="${pageTitle}"></h1>
-    <ul id="myTab" class="nav nav-tabs">
-        <li class="active"><a th:href="@{/article/list}">全部</a></li>
-        <li th:class="@{queryDto.isTop}==true?'active':''"><a th:href="@{/article/list(isTop=true)}">置顶</a></li>
-        <li><a th:href="@{/article/list(isAudit=true)}">审核通过</a></li>
-        <li><a th:href="@{/article/list(isDelete=true)}">已删除</a></li>
-    </ul>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th>
-                Project
-            </th>
-            <th>
-                Client
-            </th>
-            <th>
-                Type
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                View
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                Nike.com Redesign
-            </td>
-            <td>
-                Monsters Inc
-            </td>
-            <td>
-                New Task
-            </td>
-            <td>
-                4 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Nike.com Redesign
-            </td>
-            <td>
-                Monsters Inc
-            </td>
-            <td>
-                New Message
-            </td>
-            <td>
-                5 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Nike.com Redesign
-            </td>
-            <td>
-                Monsters Inc
-            </td>
-            <td>
-                New Project
-            </td>
-            <td>
-                5 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Twitter Server Consulting
-            </td>
-            <td>
-                Bad Robot
-            </td>
-            <td>
-                New Task
-            </td>
-            <td>
-                6 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Childrens Book Illustration
-            </td>
-            <td>
-                Evil Genius
-            </td>
-            <td>
-                New Message
-            </td>
-            <td>
-                9 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Twitter Server Consulting
-            </td>
-            <td>
-                Bad Robot
-            </td>
-            <td>
-                New Task
-            </td>
-            <td>
-                16 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Twitter Server Consulting
-            </td>
-            <td>
-                Bad Robot
-            </td>
-            <td>
-                New Project
-            </td>
-            <td>
-                16 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Twitter Server Proposal
-            </td>
-            <td>
-                Bad Robot
-            </td>
-            <td>
-                Completed Project
-            </td>
-            <td>
-                20 days ago
-            </td>
-            <td>
-                <a href="#" class="view-link">View</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="pagination">
-        <ul>
-            <li class="disabled">
-                <a href="#">&laquo;</a>
-            </li>
-            <li class="active">
-                <a href="#">1</a>
-            </li>
-            <li>
-                <a href="#">2</a>
-            </li>
-            <li>
-                <a href="#">3</a>
-            </li>
-            <li>
-                <a href="#">4</a>
-            </li>
-            <li>
-                <a href="#">&raquo;</a>
-            </li>
-        </ul>
-    </div>
-
+    <form class="form-search" th:object="${queryDto}" id="myform">
+        <p>
+            <input type="hidden" th:field="*{pageIndex}">
+            <select th:field="*{channel1}">
+                <option value="-1">--一级频道--</option>
+                <th:block th:each="c:${channels1}">
+                    <option th:value="${c.id}" th:text="${c.channelName}"></option>
+                </th:block>
+            </select>
+            <select th:field="*{channel2}">
+                <option value="-1">--二级频道--</option>
+                <th:block th:each="c:${channels2}">
+                    <option th:value="${c.id}" th:text="${c.channelName}"></option>
+                </th:block>
+            </select>
+            <input th:field="*{title}" placeholder="标题">
+        </p>
+        <p>
+            <input th:field="*{publishTimeStart}" placeholder="发布时间（起始）"
+                   onclick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd'})">
+            <input th:field="*{publishTimeEnd}" placeholder="发布时间（截止）"
+                   onclick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd'})">
+            <input th:field="*{publisher}" placeholder="发布人">
+            <a class="btn btn-info" id="btnQuery">查询</a>
+            <a class="btn btn-success" th:href="@{/article/edit}">新增</a>
+        </p>
+        <th:block th:if="${pageModel.totalCount}==0">
+            <div class="well blank-slate">
+                <p>暂时还没有文章数据</p>
+                <a th:href="@{/article/edit}" class="btn btn-primary"><i class="icon-plus icon-white"></i> 新增文章</a>
+            </div>
+        </th:block>
+        <th:block th:if="${pageModel.totalCount}!=0">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        <span>ID</span>
+                    </th>
+                    <th>
+                        <span>标题</span>
+                    </th>
+                    <th>
+                        <span>分类</span>
+                    </th>
+                    <th>
+                        <span>发布者</span>
+                    </th>
+                    <th>
+                        <span>阅读数</span>
+                    </th>
+                    <th>
+                        <span>发布日期</span>
+                    </th>
+                    <th>
+                        <span>审核</span>
+                    </th>
+                    <th>
+                        <span>置顶</span>
+                    </th>
+                    <th>
+                        <span>状态</span>
+                    </th>
+                    <th>
+                        <span>操作</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="item:${pageModel.items}">
+                    <tr>
+                        <td>
+                            <span th:text="${item.id}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${item.articleInfo.title}">标题</span>
+                        </td>
+                        <td>
+                            <span th:text="${item.channel1.channelName}"></span><br>
+                            <span th:text="${item.channel2.channelName}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${item.articleInfo.publisher}">发布者</span>
+                        </td>
+                        <td>
+                            <span th:text="${item.articleInfo.pcPv}">阅读数</span>
+                        </td>
+                        <td>
+                            <span th:text="${#dates.format(item.articleInfo.publishTime,'yyyy-MM-dd HH:mm:ss')}">发布日期</span>
+                        </td>
+                        <td>
+                            <span th:text="${item.articleInfo.isAudit}==true?'是':'否'">是否审核</span>
+                        </td>
+                        <td>
+                            <span th:text="${item.articleInfo.isTop}==true?'是':'否'">是否置顶</span>
+                        </td>
+                        <td>
+                            <span th:text="${item.articleInfo.isDelete}==true?'删除':'正常'">状态</span>
+                        </td>
+                        <td>
+                            <a class="btn btn-deault btn-xs" th:href="@{/article/edit(id=${item.id})}">编辑</a>
+                            <th:block th:switch="${item.articleInfo.isDelete}">
+                                <a th:case="false" name="btnDelete" th:attr="data-id=${item.id}"
+                                   class="btn btn-xs btn-danger">删除</a>
+                                <a th:case="true" name="btnReset" th:attr="data-id=${item.id}"
+                                   class="btn btn-xs btn-success">恢复</a>
+                            </th:block>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <div th:replace="fragments/pager::pager"></div>
+        </th:block>
+    </form>
 </div>
 <th:block layout:fragment="script">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function () {
+            $("#btnQuery").click(function () {
+                submitQuery();
+            });
+        });
 
+        function submitQuery() {
+            $("#myform").submit();
+        }
+
+        /*]]>*/
+    </script>
 </th:block>
 </body>
 </html>

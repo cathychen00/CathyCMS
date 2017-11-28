@@ -2,10 +2,12 @@ package com.cathy.cms.controller;
 
 import cms.cathy.common.utils.ConstantHelper;
 import com.cathy.cms.dto.ArticleQueryDTO;
+import com.cathy.cms.dto.ArticleWrapper;
 import com.cathy.cms.service.ArticleService;
 import com.cathy.cms.service.ChannelService;
 import com.cathy.cms.utils.WebHelper;
 import com.cathy.common.models.JsonResult;
+import com.cathy.common.models.PageModel;
 import com.data.pojo.CmsArticles;
 import com.data.pojo.CmsChannel;
 import com.data.pojo.CmsUser;
@@ -34,6 +36,9 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    private static final int DEFAULT_PAGE_INDEX = 1;
+    private static final int DEFAULT_PAGE_SIZE = 20;
+
     @RequestMapping("/edit")
     public String edit(@RequestParam(value = "id", required = false, defaultValue = "0") Integer id, Model model) {
         List<CmsChannel> channels1 = channelService.findByLevel(ConstantHelper.CHANNEL_LEVEL1);
@@ -48,7 +53,7 @@ public class ArticleController {
             pageTitle = "编辑文章";
             article = articleService.findById(id);
 
-            if (article.getChannel1()!=null) {
+            if (article.getChannel1() != null) {
                 List<CmsChannel> channels2 = channelService.findByParent(article.getChannel1());
                 model.addAttribute("channels2", channels2);
             }
@@ -60,7 +65,7 @@ public class ArticleController {
         return "/article/edit";
     }
 
-    @RequestMapping(value = "/ajaxSave",method= RequestMethod.POST)
+    @RequestMapping(value = "/ajaxSave", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult save(CmsArticles article, HttpSession session) {
         JsonResult jsonResult = validateArticle(article);
@@ -68,7 +73,7 @@ public class ArticleController {
             return jsonResult;
         }
 
-        CmsUser currentUser=(CmsUser) session.getAttribute(WebHelper.SESSION_LOGIN_USER);
+        CmsUser currentUser = (CmsUser) session.getAttribute(WebHelper.SESSION_LOGIN_USER);
         article.setAdminId(currentUser.getUserId());
         article.setAdminName(currentUser.getUsername());
         article.setPublisher(currentUser.getRealName());
@@ -85,9 +90,31 @@ public class ArticleController {
     }
 
     @RequestMapping("/list")
-    public String list(ArticleQueryDTO queryDto,Model model){
-        model.addAttribute("pageTitle","文章列表");
-        model.addAttribute("queryDto",queryDto);
+    public String list(ArticleQueryDTO queryDto, Model model) {
+        //pate title
+        model.addAttribute("pageTitle", "文章列表");
+
+        //query dto
+        if (queryDto == null) {
+            queryDto = new ArticleQueryDTO();
+            queryDto.setPageIndex(DEFAULT_PAGE_INDEX);
+        }
+        queryDto.setPageSize(DEFAULT_PAGE_SIZE);
+        model.addAttribute("queryDto", queryDto);
+
+        //channel list
+        List<CmsChannel> channels1 = channelService.findByLevel(ConstantHelper.CHANNEL_LEVEL1);
+        model.addAttribute("channels1", channels1);
+
+        if (queryDto.getChannel1() != null) {
+            List<CmsChannel> channels2 = channelService.findByParent(queryDto.getChannel1());
+            model.addAttribute("channels2", channels2);
+        }
+
+        //article list
+        PageModel<ArticleWrapper> pageModel = articleService.findArticlesPaging(queryDto);
+        model.addAttribute("pageModel", pageModel);
+
         return "/article/list";
     }
 
