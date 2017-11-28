@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : utf-8
 
- Date: 11/01/2017 13:57:07 PM
+ Date: 11/28/2017 17:29:39 PM
 */
 
 SET NAMES utf8mb4;
@@ -48,7 +48,7 @@ CREATE TABLE `cms_articles` (
 --  Records of `cms_articles`
 -- ----------------------------
 BEGIN;
-INSERT INTO `cms_articles` VALUES ('1', '1', '4', '2017-10-10 17:01:50', '2017-10-10 17:01:50', '2017-10-10 17:01:43', '<p>所属</p>', null, '超级管理员', '2', 'admin', '水水水水', '两个小时胜多负少', b'0', b'0', b'0', '0', b'0', ''), ('2', '2', '9', '2017-10-10 17:27:55', '2017-10-10 17:42:15', '2017-10-12 17:27:24', '<p>sdfsd<br/></p>', 'http://localhost:8088/uploads/cover/90767f1661b6423193b7c8e3ad43a4fd1504246860519.jpg', '超级管理员', '2', 'admin', '摘要2', '测试文章2', b'0', b'0', b'0', '0', b'0', 'http://localhost:8088/uploads/cover/e40734ffaf564c16b7c4a416cd1ae1381504246823549.jpg');
+INSERT INTO `cms_articles` VALUES ('1', '1', '4', '2017-10-10 17:01:50', '2017-11-28 16:17:51', '2017-10-10 17:01:43', '<p style=\"text-align: left;\">所<span style=\"text-decoration: underline; color: rgb(255, 0, 0);\"><em><strong>属</strong></em></span></p><ol class=\" list-paddingleft-2\" style=\"list-style-type: decimal;\"><li><p style=\"text-align: center;\"><span style=\"text-decoration: underline; color: rgb(255, 0, 0);\"><em><strong>sfsfsafs&nbsp;</strong></em></span></p></li></ol>', null, '超级管理员', '2', 'admin', '水水水水', '两个小时胜多负少', b'0', b'0', b'0', '0', b'0', ''), ('2', '2', '9', '2017-10-10 17:27:55', '2017-10-10 17:42:15', '2017-10-12 17:27:24', '<p>sdfsd<br/></p>', 'http://localhost:8088/uploads/cover/90767f1661b6423193b7c8e3ad43a4fd1504246860519.jpg', '超级管理员', '2', 'admin', '摘要2', '测试文章2', b'0', b'0', b'0', '0', b'0', 'http://localhost:8088/uploads/cover/e40734ffaf564c16b7c4a416cd1ae1381504246823549.jpg');
 COMMIT;
 
 -- ----------------------------
