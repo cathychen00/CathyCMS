@@ -66,4 +66,11 @@ public interface CmsArticlesMapper {
      */
     List<CmsArticles> selectByExample(CmsArticlesCriteria example);
 
+    /**
+     * 更新文章删除状态
+     * @param articleId 文章id
+     * @param isDelete 是否删除，true删除，false未删除
+     * @return
+     */
+    int updateDeleteFlag(@Param("articleId") int articleId, @Param("isDelete") boolean isDelete);
 }

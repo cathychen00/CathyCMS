@@ -20,4 +20,8 @@ public interface ArticleService {
     PageModel<ArticleWrapper> findArticlesPaging(ArticleQueryDTO queryDTO);
 
     int count(ArticleQueryDTO queryDto);
+
+    int delete(int articleId);
+
+    int reset(int articleId);
 }

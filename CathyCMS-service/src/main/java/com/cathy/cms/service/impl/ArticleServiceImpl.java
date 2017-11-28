@@ -129,6 +129,16 @@ public class ArticleServiceImpl implements ArticleService {
         return articlesMapper.countByExample(criteria);
     }
 
+    @Override
+    public int delete(int articleId) {
+        return articlesMapper.updateDeleteFlag(articleId,true);
+    }
+
+    @Override
+    public int reset(int articleId) {
+        return articlesMapper.updateDeleteFlag(articleId,false);
+    }
+
     private CmsArticlesCriteria buildCritia(ArticleQueryDTO queryDto) {
         CmsArticlesCriteria criteria = new CmsArticlesCriteria();
         if (queryDto != null) {

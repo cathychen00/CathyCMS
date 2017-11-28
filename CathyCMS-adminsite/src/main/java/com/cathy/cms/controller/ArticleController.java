@@ -118,6 +118,18 @@ public class ArticleController {
         return "/article/list";
     }
 
+    @RequestMapping(value = "/ajaxDelete")
+    @ResponseBody
+    public int delete(@RequestParam("articleId") int articleId) {
+        return articleService.delete(articleId);
+    }
+
+    @RequestMapping(value = "/ajaxReset")
+    @ResponseBody
+    public int reset(@RequestParam("articleId") int articleId) {
+        return articleService.reset(articleId);
+    }
+
     private JsonResult validateArticle(CmsArticles article) {
         JsonResult jsonResult = new JsonResult() {{
             setReturncode(0);

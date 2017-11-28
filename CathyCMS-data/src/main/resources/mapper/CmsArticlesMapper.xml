@@ -324,4 +324,10 @@
     publisher=#{article.publisher}
     where id=#{article.id}
   </update>
+
+  <update id="updateDeleteFlag">
+    update cms_articles
+    set is_delete=#{isDelete}
+    WHERE id=#{articleId}
+  </update>
 </mapper>

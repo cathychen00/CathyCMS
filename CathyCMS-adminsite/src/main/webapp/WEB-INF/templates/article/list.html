@@ -131,12 +131,37 @@
             $("#btnQuery").click(function () {
                 submitQuery();
             });
+            $("[name='btnDelete']").click(function () {
+                var articleId = $(this).attr("data-id");
+                deleteArticle(articleId);
+            });
+
+            $("[name='btnReset']").click(function () {
+                var articleId = $(this).attr("data-id");
+                resetArticle(articleId);
+            });
         });
 
         function submitQuery() {
             $("#myform").submit();
         }
+        function deleteArticle(articleId) {
+            if (confirm("确定删除该文章吗?")) {
+                $.post(/*[[@{/article/ajaxDelete}]]*/, {"articleId": articleId}, function (result) {
+                    if (result != null && result > 0) {
+                        window.location.reload();
+                    }
+                });
+            }
+        }
 
+        function resetArticle(articleId) {
+            $.post(/*[[@{/article/ajaxReset}]]*/, {"articleId": articleId}, function (result) {
+                if (result != null && result > 0) {
+                    window.location.reload();
+                }
+            });
+        }
         /*]]>*/
     </script>
 </th:block>
